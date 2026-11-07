@@ -269,7 +269,9 @@ const CONFIG = {
   CLIENT_ID: '387152732131-gfk59erhm4uivcmi026n6qdnnr48uufd.apps.googleusercontent.com',
   API_URL:   'https://script.google.com/macros/s/AKfycbzAjHJ9dCA54T-S9XGVawR-VItftDt8OSifm4jlB_KwZx_skEL3d-1BkhKFYyVcVsysKA/exec'
 };
-const PAGE_VERSION = '2.0.0 (7 พ.ย. 69)';
+const PAGE_VERSION = '2.0.1 (7 พ.ย. 69)';
+const SCHOOL_DOMAIN = 'kjst.ac.th';
+const LAST_EMAIL_KEY = 'kjst_att_last_email';
 const SESSION_KEY = 'kjst_att_session';
 const SHORT = ['มา', 'ราชการ', 'ลา', 'สาย', 'ขาด'];
 const LS_KEY = 'kjst_att_class';
@@ -579,8 +581,11 @@ const GIS = {
   },
   init(){
     if (GIS.inited) return;
+    const last = ls.get(LAST_EMAIL_KEY);
     google.accounts.id.initialize({
       client_id: CONFIG.CLIENT_ID,
+      hd: SCHOOL_DOMAIN,              // แสดง/เลือกเฉพาะบัญชี @kjst.ac.th ไม่ยึดบัญชีหลักของเครื่อง
+      login_hint: last || undefined,  // จำบัญชีที่ใช้ล่าสุดในเครื่องนี้
       callback: r => AUTH.onCredential(r.credential),
       auto_select: true,              // บัญชีที่เคยใช้กับระบบนี้บัญชีเดียว → เข้าให้อัตโนมัติ
       cancel_on_tap_outside: false,
@@ -622,6 +627,7 @@ const AUTH = {
     try{
       const d = await api('login', { idToken: idToken, device: navigator.userAgent });
       S.session = d.session; ls.set(SESSION_KEY, d.session);
+      ls.set(LAST_EMAIL_KEY, d.init.email);
       S.init = d.init;
       enterApp();
     }catch(e){
@@ -645,6 +651,12 @@ const AUTH = {
 
 async function boot(){
   $('lver').textContent = 'เวอร์ชัน ' + PAGE_VERSION;
+  if (/ใส่_/.test(CONFIG.CLIENT_ID + CONFIG.API_URL) || !/\.apps\.googleusercontent\.com$/.test(CONFIG.CLIENT_ID.trim())){
+    $('lmsg').className = 'lmsg show err';
+    $('lmsg').textContent = 'ผู้ดูแลระบบยังตั้งค่า CLIENT_ID หรือ API_URL ใน index.html ไม่ถูกต้อง';
+    $('gbtn').style.display = 'none';
+    return;
+  }
   ACCT.setup();
   S.session = ls.get(SESSION_KEY);
   if (!S.session) return AUTH.showLogin('', '', true);
