@@ -89,6 +89,17 @@
   .save:disabled{opacity:.5}
   .save.locked{background:var(--chip);color:var(--muted);opacity:1}
   .save.dirty{box-shadow:0 0 0 3px rgba(11,93,140,.25)}
+  /* แถบวันค้างบันทึก */
+  .pend{margin-top:8px;border-radius:10px;padding:8px 10px;font-size:13.5px;display:flex;flex-direction:column;gap:7px}
+  .pend.warn{background:#FEF3C7;color:#6B4200}
+  .pend.ok{background:#DDF5EC;color:#065F46;font-weight:600}
+  .pend .row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700}
+  .pend .tog{font:inherit;font-size:12.5px;font-weight:600;background:none;border:0;color:inherit;text-decoration:underline;cursor:pointer;padding:2px 0}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font:inherit;font-size:12.5px;font-weight:600;background:#fff;border:1px solid #F59E0B;color:#7A4A00;border-radius:999px;padding:3px 10px;cursor:pointer}
+  .chip.today{background:#DC2626;border-color:#DC2626;color:#fff}
+  .chip.cur{box-shadow:0 0 0 2px #1E3A8A}
+  .chip.more{border-style:dashed;cursor:default}
   .ver{text-align:center;font-size:11px;color:var(--muted);margin-top:6px}
   .empty,.loading{text-align:center;color:var(--muted);padding:40px 0}
   .toast{position:fixed;left:50%;bottom:140px;transform:translateX(-50%);background:#222;color:#fff;
@@ -192,6 +203,7 @@
     <select id="cls" aria-label="ห้องเรียน" disabled></select>
     <select id="date" aria-label="วันที่" disabled></select>
   </div>
+  <div class="pend" id="pend" hidden></div>
 </header>
 
 <main>
@@ -269,7 +281,8 @@ const CONFIG = {
   CLIENT_ID: '387152732131-gfk59erhm4uivcmi026n6qdnnr48uufd.apps.googleusercontent.com',
   API_URL:   'https://script.google.com/macros/s/AKfycbzAjHJ9dCA54T-S9XGVawR-VItftDt8OSifm4jlB_KwZx_skEL3d-1BkhKFYyVcVsysKA/exec'
 };
-const PAGE_VERSION = '2.0.1 (7 พ.ย. 69)';
+const PAGE_VERSION = '2.1.0 (10 พ.ย. 69)';
+const PEND_HIDE_KEY = 'kjst_att_pend_hide';
 const SCHOOL_DOMAIN = 'kjst.ac.th';
 const LAST_EMAIL_KEY = 'kjst_att_last_email';
 const SESSION_KEY = 'kjst_att_session';
@@ -343,13 +356,36 @@ function enterApp(){
     $('list').innerHTML = '<li class="empty">ยังไม่ถึงวันเปิดภาคเรียน</li>';
     return;
   }
-  $('date').innerHTML = I.dates.map(k => '<option value="' + k + '">' + esc(thaiDate(k)) + '</option>').join('');
+  // ลิงก์จากอีเมล: ?cls=ม.1/3&date=2026-11-10
+  try{
+    const q = new URLSearchParams(location.search);
+    const qc = q.get('cls'), qd = q.get('date');
+    if (qc && I.classes.includes(qc)) $('cls').value = qc;
+    if (qc || qd) history.replaceState(null, '', location.pathname);
+    S.wantDate = (qd && I.dates.includes(qd)) ? qd : null;
+  }catch(e){}
+  renderDates(S.wantDate || I.dates[0]);
+  S.wantDate = null;
   $('cls').disabled = $('date').disabled = false;
+  PEND.render();
   load();
 }
 
+/** ตัวเลือกวันที่ — วันที่ค้างของห้องที่เลือกมี ⚠ นำหน้า */
+function renderDates(keep){
+  const sel = keep || $('date').value || S.init.dates[0];
+  const p = PEND.of($('cls').value);
+  const bad = {}; if (p) p.days.forEach(d => bad[d.key] = d.st);
+  $('date').innerHTML = S.init.dates.map(k =>
+    '<option value="' + k + '">' + (bad[k] ? '⚠ ' : '') + esc(thaiDate(k)) +
+    (bad[k] === 'partial' ? ' · ไม่ครบ' : '') + '</option>').join('');
+  $('date').value = S.init.dates.includes(sel) ? sel : S.init.dates[0];
+}
+
 async function load(){
+  renderDates($('date').value);
   S.cls = $('cls').value; S.date = $('date').value;
+  PEND.render();
   ls.set(LS_KEY, S.cls);
   $('list').innerHTML = '<li class="loading">กำลังโหลดรายชื่อ ' + esc(S.cls) + '…</li>';
   $('tools').hidden = true; $('banner').innerHTML = ''; $('counts').innerHTML = '';
@@ -508,6 +544,7 @@ async function doSave(){
       ids: S.students.map(s => s.id), statuses: S.students.map(s => s.status)
     });
     S.last = info; S.busy = false; setDirty(false); renderBanner(true);
+    if (info.pending){ S.init.pending = info.pending; renderDates(S.date); PEND.render(); }
     OV.success(info);
   }catch(e){
     S.busy = false; setDirty(true);
@@ -538,6 +575,52 @@ $('date').addEventListener('change', e => guardChange(e.target, S.date));
 window.addEventListener('beforeunload', e => {
   if (S.busy || (S.dirty && S.canEdit && !$('app').hidden)){ e.preventDefault(); e.returnValue = ''; }
 });
+
+/* ---------- แถบวันค้างบันทึก ---------- */
+const PEND = {
+  of(cls){ return (S.init.pending || []).find(p => p.cls === cls); },
+  hidden(){ return ls.get(PEND_HIDE_KEY) === S.init.today; },
+  toggle(){ PEND.hidden() ? ls.del(PEND_HIDE_KEY) : ls.set(PEND_HIDE_KEY, S.init.today); PEND.render(); },
+  jump(cls, date){
+    if (S.busy) return;
+    if (cls === S.cls && date === S.date) return;
+    if (S.dirty && S.canEdit && !confirm('ยังไม่ได้บันทึกการเปลี่ยนแปลง ต้องการออกจากหน้านี้หรือไม่?')) return;
+    $('cls').value = cls;
+    renderDates(date);
+    load();
+  },
+  render(){
+    const I = S.init, box = $('pend');
+    if (!I || !I.editable.length){ box.hidden = true; return; }
+    const list = I.pending || [];
+    const total = list.reduce((a, p) => a + p.days.length, 0);
+    box.hidden = false;
+    if (!total){ box.className = 'pend ok'; box.textContent = '✓ บันทึกครบทุกวันแล้ว'; return; }
+    box.className = 'pend warn';
+    const hid = PEND.hidden();
+    let head, chips = '';
+    if (list.length === 1){
+      const p = list[0], MAX = 8;
+      head = '⚠ ยังไม่ได้บันทึก ' + total + ' วัน' + (I.editable.length > 1 ? ' · ' + esc(p.cls) : '');
+      chips = p.days.slice(0, MAX).map(d =>
+        '<button type="button" class="chip' + (d.key === I.today ? ' today' : '') +
+        (p.cls === S.cls && d.key === S.date ? ' cur' : '') + '" data-c="' + esc(p.cls) + '" data-d="' + d.key + '">' +
+        esc(thaiDate(d.key)) + (d.st === 'partial' ? ' · ไม่ครบ' : '') + '</button>').join('') +
+        (p.days.length > MAX ? '<span class="chip more">+' + (p.days.length - MAX) + ' วัน</span>' : '');
+    } else {
+      head = '⚠ ' + list.length + ' ห้องยังค้างบันทึก (รวม ' + total + ' วัน)';
+      chips = list.map(p => {
+        const hasToday = p.days.some(d => d.key === I.today);
+        return '<button type="button" class="chip' + (hasToday ? ' today' : '') + (p.cls === S.cls ? ' cur' : '') +
+          '" data-c="' + esc(p.cls) + '" data-d="' + p.days[0].key + '">' + esc(p.cls) + ' · ' + p.days.length + ' วัน</button>';
+      }).join('');
+    }
+    box.innerHTML = '<div class="row"><span>' + head + '</span><button type="button" class="tog" id="pendTog">' +
+      (hid ? 'แสดง' : 'ซ่อน') + '</button></div>' + (hid ? '' : '<div class="chips">' + chips + '</div>');
+    $('pendTog').onclick = PEND.toggle;
+    box.querySelectorAll('.chip[data-c]').forEach(b => b.onclick = () => PEND.jump(b.dataset.c, b.dataset.d));
+  }
+};
 
 /* ---------- บัญชีผู้ใช้ ---------- */
 const ACCT = {
