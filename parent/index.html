@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1E3A8A">
+<meta name="theme-color" content="#172F73">
 <meta name="robots" content="noindex">
 <title>ติดตามการมาเรียน · KJST</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600&display=swap">
 <style>
 :root{
-  --navy:#1E3A8A; --blue:#2563EB; --gold:#F59E0B; --bg:#F1F5F9; --card:#FFFFFF;
+  --navy:#1E3A8A; --navy2:#172F73; --blue:#2563EB; --gold:#F59E0B; --bg:#F1F5F9; --card:#FFFFFF;
   --ink:#0F172A; --ink2:#334155; --muted:#475569; --line:#E2E8F0; --chip:#CBD5E1;
 }
 *{box-sizing:border-box}
@@ -23,16 +23,18 @@ h1,h2,h3,.p{font-family:'Prompt','Sarabun',sans-serif}
 .hide{display:none!important}
 svg{flex-shrink:0}
 
-/* ส่วนหัว */
-.hero{background:var(--navy);color:#fff;padding:36px 24px 72px}
-.brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.logo{width:48px;height:48px;border-radius:50%;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:'Prompt';font-weight:700;font-size:13px}
-.brand div{font-size:14px;line-height:1.4;color:#DBEAFE}
-.hero h1{margin:0;font-weight:700;font-size:28px;line-height:1.3}
-.hero p{margin:6px 0 0;font-size:16px;color:#DBEAFE}
+/* ส่วนหัว: ตราเรืองแสงทอง */
+.glow{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(252,211,77,.38) 0%,rgba(245,158,11,.14) 38%,rgba(23,47,115,0) 70%)}
+.school{position:relative;font-family:'Prompt';font-weight:600;color:#FCD34D}
+.hero{position:relative;overflow:hidden;background:var(--navy2);color:#fff;padding:30px 24px 78px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;border-bottom:5px solid var(--gold)}
+.hero .glow{top:-40px;left:50%;margin-left:-130px;width:260px;height:260px}
+.crest{position:relative;height:118px;width:auto;margin-bottom:8px;filter:drop-shadow(0 0 6px rgba(253,230,138,.9)) drop-shadow(0 0 18px rgba(245,158,11,.55))}
+.hero .school{font-size:15px}
+.hero h1{position:relative;margin:0;font-weight:700;font-size:30px;line-height:1.3}
+.hero p{position:relative;margin:0;font-size:16px;color:#DBEAFE}
 
 .card{background:var(--card);border-radius:20px;margin:0 16px;padding:22px 20px;box-shadow:0 8px 24px rgba(15,23,42,.08)}
-.lift{margin-top:-48px}
+.lift{margin-top:-48px;position:relative;z-index:1}
 .stack{display:flex;flex-direction:column;gap:20px}
 .lbl{font-family:'Prompt';font-weight:600;font-size:16px;color:var(--navy);margin:0 0 8px;display:block;padding:0}
 .hint{margin:6px 0 0;font-size:14px;color:var(--muted);line-height:1.5}
@@ -58,11 +60,15 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 @keyframes sp{to{transform:rotate(360deg)}}
 
 /* หน้าผล */
-.rhead{background:var(--navy);color:#fff;padding:16px 20px 64px}
-.back{min-height:44px;display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:#fff;font-size:16px;font-weight:600;padding:0;cursor:pointer}
-.sname{font-family:'Prompt';font-weight:700;font-size:24px;line-height:1.3;margin-top:10px}
-.scls{font-size:16px;color:#DBEAFE}
-.today{margin:-44px 16px 0;background:#fff;border-radius:22px;box-shadow:0 10px 28px rgba(15,23,42,.10);overflow:hidden}
+.rhead{position:relative;overflow:hidden;background:var(--navy2);color:#fff;padding:14px 16px 66px;border-bottom:5px solid var(--gold)}
+.rhead .glow{top:-50px;left:-50px;width:170px;height:170px}
+.rtop{position:relative;display:flex;align-items:center;gap:10px}
+.rtop img{height:52px;width:auto;flex-shrink:0;filter:drop-shadow(0 0 4px rgba(253,230,138,.9)) drop-shadow(0 0 10px rgba(245,158,11,.5))}
+.rtop .school{flex:1;min-width:0;font-size:13px;line-height:1.35}
+.back{min-height:40px;display:inline-flex;align-items:center;gap:4px;background:none;border:1.5px solid rgba(252,211,77,.6);border-radius:999px;color:#fff;font-size:14px;font-weight:600;padding:0 12px;cursor:pointer;flex-shrink:0}
+.sname{position:relative;font-family:'Prompt';font-weight:700;font-size:24px;line-height:1.3;margin-top:16px}
+.scls{position:relative;display:inline-block;margin-top:8px;background:var(--gold);color:var(--navy2);border-radius:999px;padding:3px 12px;font-family:'Prompt';font-weight:600;font-size:14px}
+.today{margin:-44px 16px 0;background:#fff;border-radius:22px;box-shadow:0 10px 28px rgba(15,23,42,.12);overflow:hidden;position:relative}
 .tbar{background:#FEF3C7;color:#78350F;padding:12px 20px;font-family:'Prompt';font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px}
 .tbody{padding:28px 20px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
 .ring{width:104px;height:104px;border-radius:50%;display:flex;align-items:center;justify-content:center}
@@ -90,17 +96,31 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .adv b{display:block;font-size:16px;font-weight:600}
 .adv span{font-size:14px;color:var(--muted)}
 .call{width:48px;height:48px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center}
-.hist{margin:28px 16px 0}
-.hist h2{margin:0 4px 12px;font-weight:600;font-size:18px;color:var(--navy)}
-.month{font-size:14px;font-weight:600;color:var(--muted);padding:8px 4px}
-.days{background:#fff;border-radius:16px;overflow:hidden}
-.day{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid #F1F5F9;min-height:56px}
-.day:last-child{border-bottom:0}
-.dd{width:44px;text-align:center;flex-shrink:0}
-.dd small{display:block;font-size:13px;color:#64748B}
-.dd b{font-family:'Prompt';font-weight:600;font-size:20px;line-height:1.1}
-.pill{margin-left:auto;flex-shrink:0;min-width:80px;text-align:center;padding:6px 12px;border-radius:999px;font-family:'Prompt';font-weight:600;font-size:14px}
-.empty{background:#fff;border-radius:16px;padding:20px;text-align:center;color:var(--muted)}
+/* ปฏิทินประวัติการมาเรียน */
+.calsec{padding:18px 16px 16px}
+.calsec .sec-t{padding:0 4px;margin-bottom:10px}
+.calnav{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.calnav button{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:#fff;color:var(--navy);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.calnav button:disabled{color:#CBD5E1;cursor:default}
+.calt{flex:1;text-align:center}
+.calt b{display:block;font-family:'Prompt';font-weight:700;font-size:18px}
+.calt span{font-size:13px;color:var(--muted)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.wd{text-align:center;font-family:'Prompt';font-weight:600;font-size:13px;color:var(--navy);padding:4px 0}
+.wd.we{color:#94A3B8}
+.cell{height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Prompt';font-size:15px;color:#94A3B8}
+.cell.off{color:#CBD5E1}
+.cell.st{font-weight:600}
+.cell.dash{border:1.5px dashed #64748B}
+.cell.is-today{box-shadow:0 0 0 2.5px var(--navy);font-weight:700}
+.legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 6px;padding:12px 4px 0;margin-top:12px;border-top:1px solid #F1F5F9}
+.legend div{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink2)}
+.legend i{width:14px;height:14px;border-radius:4px;flex-shrink:0}
+.notes{border-top:1px solid #F1F5F9;margin-top:12px;padding-top:6px}
+.notes h3{margin:0;font-family:'Sarabun';font-size:14px;font-weight:600;color:var(--muted);padding:6px 4px}
+.nrow{display:flex;align-items:center;gap:10px;padding:8px 4px;min-height:40px}
+.nrow span:first-child{flex:1;font-size:15px}
+.pill{flex-shrink:0;padding:4px 12px;border-radius:999px;font-family:'Prompt';font-weight:600;font-size:13px}
 footer{padding:24px 16px 20px;text-align:center;font-size:13px;color:#64748B;line-height:1.6}
 </style>
 </head>
@@ -110,7 +130,9 @@ footer{padding:24px 16px 20px;text-align:center;font-size:13px;color:#64748B;lin
 <!-- ================= หน้าค้นหา ================= -->
 <main id="vSearch">
   <header class="hero">
-    <div class="brand"><div class="logo" aria-hidden="true">KJST</div><div>โรงเรียนกาญจนาภิเษกวิทยาลัย<br>สุราษฎร์ธานี</div></div>
+    <div class="glow" aria-hidden="true"></div>
+    <img class="crest" src="logo.png" alt="ตราโรงเรียนกาญจนาภิเษกวิทยาลัย สุราษฎร์ธานี">
+    <div class="school">โรงเรียนกาญจนาภิเษกวิทยาลัย สุราษฎร์ธานี</div>
     <h1>ติดตามการมาเรียน</h1>
     <p>สำหรับผู้ปกครอง · <span id="semLabel">ภาคเรียนที่ 2/2569</span></p>
   </header>
@@ -160,10 +182,15 @@ footer{padding:24px 16px 20px;text-align:center;font-size:13px;color:#64748B;lin
 <!-- ================= หน้าผล ================= -->
 <main id="vResult" class="hide">
   <header class="rhead">
-    <button id="btnBack" class="back" type="button">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-      ค้นหาใหม่
-    </button>
+    <div class="glow" aria-hidden="true"></div>
+    <div class="rtop">
+      <img src="logo.png" alt="ตราโรงเรียน">
+      <div class="school">โรงเรียนกาญจนาภิเษกวิทยาลัย<br>สุราษฎร์ธานี</div>
+      <button id="btnBack" class="back" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        ค้นหาใหม่
+      </button>
+    </div>
     <div id="rName" class="sname"></div>
     <div id="rCls" class="scls"></div>
   </header>
@@ -191,14 +218,21 @@ footer{padding:24px 16px 20px;text-align:center;font-size:13px;color:#64748B;lin
     </div>
   </section>
 
+  <section class="sec calsec" aria-labelledby="calH">
+    <div class="sec-t"><h2 id="calH">ประวัติการมาเรียน</h2></div>
+    <div class="calnav">
+      <button id="calPrev" type="button" aria-label="เดือนก่อนหน้า"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="calt" aria-live="polite"><b id="calTitle"></b><span id="calSum"></span></div>
+      <button id="calNext" type="button" aria-label="เดือนถัดไป"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+    <div id="cal" class="cal"></div>
+    <div id="legend" class="legend"></div>
+    <div id="calNotes" class="notes hide"></div>
+  </section>
+
   <section id="advBox" class="sec hide">
     <div class="sec-t"><h2 id="advTitle">ครูที่ปรึกษา</h2></div>
     <div id="advList"></div>
-  </section>
-
-  <section class="hist">
-    <h2>ประวัติการมาเรียน</h2>
-    <div id="histList"></div>
   </section>
 </main>
 
@@ -207,13 +241,15 @@ footer{padding:24px 16px 20px;text-align:center;font-size:13px;color:#64748B;lin
 
 <script>
 const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbzKrx61RyG-sIA6wQpOYJZRHV0Owti7iz6W0Kd-QYZD9KkOpkviKsjJTs8O8oLJtugx/exec',   // จาก ทำให้ใช้งานได้ → URL ของเว็บแอป
+  API_URL: 'https://script.google.com/macros/s/AKfycbzKrx61RyG-sIA6wQpOYJZRHV0Owti7iz6W0Kd-QYZD9KkOpkviKsjJTs8O8oLJtugx/exec',
   STORE_KEY: 'kjst-parent-v1'
 };
-const PAGE_VERSION = '1.0.0';
+const PAGE_VERSION = '1.1.0';
 
 const TH_DAYS = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
 const TH_DAYS_S = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
+const TH_MONTHS_S = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+const TH_WD = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
 const TH_MONTHS = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
 
 const ICON = {
@@ -230,22 +266,23 @@ const ICON = {
 
 // สถานะ: ป้าย สีหลัก พื้นอ่อน สีตัวอักษรบนพื้นอ่อน ไอคอน
 const ST = {
-  present: { label: 'มาเรียน', c: '#047857', bg: '#D1FAE5', fg: '#065F46', ic: 'check', sub: 'มาเรียนตามปกติ' },
-  duty:    { label: 'ไปราชการ/อื่นๆ', c: '#0F766E', bg: '#CCFBF1', fg: '#115E59', ic: 'bag', sub: 'ไปทำกิจกรรมหรือภารกิจของโรงเรียน' },
-  leave:   { label: 'ลาป่วย/ลากิจ', c: '#1D4ED8', bg: '#DBEAFE', fg: '#1E40AF', ic: 'doc', sub: 'มีการแจ้งลาแล้ว' },
-  late:    { label: 'มาสาย', c: '#B45309', bg: '#FEF3C7', fg: '#92400E', ic: 'clock', sub: 'มาถึงหลังเวลาเข้าแถว' },
-  absent:  { label: 'ขาดเรียน', c: '#B91C1C', bg: '#FEE2E2', fg: '#991B1B', ic: 'x', sub: 'ไม่มีการแจ้งลา' },
-  pending: { label: 'ยังไม่ได้เช็กชื่อ', c: '#475569', bg: '#E2E8F0', fg: '#334155', ic: 'dots', sub: 'ครูยังไม่ได้บันทึกของวันนี้ ลองดูใหม่หลัง 08:30 น.' },
+  present: { label: 'มาเรียน', cb: '#A7F3D0', cf: '#064E3B', c: '#047857', bg: '#D1FAE5', fg: '#065F46', ic: 'check', sub: 'มาเรียนตามปกติ' },
+  duty:    { label: 'ไปราชการ/อื่นๆ', cb: '#99F6E4', cf: '#134E4A', c: '#0F766E', bg: '#CCFBF1', fg: '#115E59', ic: 'bag', sub: 'ไปทำกิจกรรมหรือภารกิจของโรงเรียน' },
+  leave:   { label: 'ลาป่วย/ลากิจ', cb: '#BFDBFE', cf: '#1E3A8A', c: '#1D4ED8', bg: '#DBEAFE', fg: '#1E40AF', ic: 'doc', sub: 'มีการแจ้งลาแล้ว' },
+  late:    { label: 'มาสาย', cb: '#FCD34D', cf: '#78350F', c: '#B45309', bg: '#FEF3C7', fg: '#92400E', ic: 'clock', sub: 'มาถึงหลังเวลาเข้าแถว' },
+  absent:  { label: 'ขาดเรียน', cb: '#B91C1C', cf: '#FFFFFF', c: '#B91C1C', bg: '#FEE2E2', fg: '#991B1B', ic: 'x', sub: 'ไม่มีการแจ้งลา' },
+  pending: { label: 'ยังไม่ได้เช็กชื่อ', cb: '#FFFFFF', cf: '#475569', dash: true, c: '#475569', bg: '#E2E8F0', fg: '#334155', ic: 'dots', sub: 'ครูยังไม่ได้บันทึกของวันนี้ ลองดูใหม่หลัง 08:30 น.' },
   noclass: { label: 'วันนี้ไม่มีเรียน', c: '#92400E', bg: '#FEF3C7', fg: '#92400E', ic: 'sun', sub: 'วันหยุด · ดูวันเรียนล่าสุดได้ด้านล่าง' },
-  none:    { label: 'ไม่มีบันทึก', c: '#475569', bg: '#F1F5F9', fg: '#475569', ic: 'dots' }
+  none:    { label: 'ไม่มีบันทึก', cb: '#FFFFFF', cf: '#475569', dash: true, c: '#475569', bg: '#F1F5F9', fg: '#475569', ic: 'dots' }
 };
+const LEGEND = ['present', 'duty', 'leave', 'late', 'absent', 'none'];
 const STAT_ORDER = [['present', 'มาเรียน'], ['duty', 'ราชการ'], ['leave', 'ลา'], ['late', 'มาสาย'], ['absent', 'ขาด']];
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const svg = (name, size, color, w) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${w || 2.4}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[name]}</svg>`;
 
-const state = { grades: null, grade: null, room: null };
+const state = { grades: null, grade: null, room: null, cal: null };
 
 /* ---------- เรียก API ---------- */
 async function api(body) {
@@ -399,26 +436,78 @@ function renderResult(r) {
   $('advList').innerHTML = adv.map(a => `<div class="adv"><div><b>${esc(a.name)}</b>${a.phone ? `<span>${esc(fmtPhone(a.phone))}</span>` : ''}</div>` +
     (a.phone ? `<a class="call" href="tel:${esc(a.phone)}" aria-label="โทรหา ${esc(a.name)}">${svg('phone', 22, '#fff', 2.2)}</a>` : '') + '</div>').join('');
 
-  // ประวัติ
-  if (!r.history.length) {
-    $('histList').innerHTML = '<div class="empty">ยังไม่มีข้อมูลย้อนหลัง</div>';
-  } else {
-    let html = '', cur = '';
-    r.history.forEach(h => {
-      const d = parseKey(h.date);
-      const mk = TH_MONTHS[d.getUTCMonth()] + ' ' + (d.getUTCFullYear() + 543);
-      if (mk !== cur) { if (cur) html += '</div>'; html += `<div class="month">${mk}</div><div class="days">`; cur = mk; }
-      const st = ST[h.status] || ST.none;
-      html += `<div class="day"><div class="dd"><small>${TH_DAYS_S[d.getUTCDay()]}</small><b>${d.getUTCDate()}</b></div>` +
-        `<span class="pill" style="background:${st.bg};color:${st.fg}">${st.label}</span></div>`;
-    });
-    $('histList').innerHTML = html + '</div>';
-  }
+  // ประวัติ (ปฏิทินรายเดือน)
+  buildCalendar(r);
 
   $('asOf').textContent = 'ข้อมูล ณ เวลา ' + r.asOf + ' น. · จากระบบ E-Attendance';
   $('vSearch').classList.add('hide');
   $('vResult').classList.remove('hide');
   window.scrollTo(0, 0);
+}
+
+/* ---------- ปฏิทินรายเดือน ---------- */
+const pad2 = n => (n < 10 ? '0' : '') + n;
+
+function buildCalendar(r) {
+  const map = {};
+  r.history.forEach(h => { map[h.date] = h.status; });
+  if (r.today.status !== 'noclass') map[r.today.date] = r.today.status;
+  const keys = Object.keys(map).sort();
+  const start = keys[0] || r.today.date;   // วันเรียนวันแรกที่มีในระบบ = เปิดภาคเรียน
+  const months = [];
+  let y = +start.slice(0, 4), m = +start.slice(5, 7) - 1;
+  const ty = +r.today.date.slice(0, 4), tm = +r.today.date.slice(5, 7) - 1;
+  while (y < ty || (y === ty && m <= tm)) { months.push({ y, m }); if (++m > 11) { m = 0; y++; } }
+  if (!months.length) months.push({ y: ty, m: tm });
+  state.cal = { map, start, today: r.today.date, months, idx: months.length - 1 };
+  $('legend').innerHTML = LEGEND.map(k => `<div><i style="background:${ST[k].cb};${ST[k].dash ? 'border:1.5px dashed #64748B' : ''}"></i>${ST[k].label}</div>`).join('');
+  drawCalendar();
+}
+
+function drawCalendar() {
+  const c = state.cal, M = c.months[c.idx];
+  const first = new Date(Date.UTC(M.y, M.m, 1)).getUTCDay();
+  const len = new Date(Date.UTC(M.y, M.m + 1, 0)).getUTCDate();
+  const count = { present: 0, duty: 0, leave: 0, late: 0, absent: 0 };
+  const notes = [];
+  let html = TH_WD.map((w, i) => `<div class="wd${i === 0 || i === 6 ? ' we' : ''}" aria-hidden="true">${w}</div>`).join('');
+  for (let i = 0; i < first; i++) html += '<div aria-hidden="true"></div>';
+  for (let d = 1; d <= len; d++) {
+    const key = M.y + '-' + pad2(M.m + 1) + '-' + pad2(d);
+    const wd = (first + d - 1) % 7, code = c.map[key];
+    const name = TH_DAYS_S[wd] + ' ' + d + ' ' + TH_MONTHS_S[M.m];
+    let cls = 'cell', style = '', what;
+    if (code) {
+      const s = ST[code];
+      cls += ' st' + (s.dash ? ' dash' : '');
+      style = `background:${s.cb};color:${s.cf}`;
+      what = s.label;
+      if (count[code] != null) count[code]++;
+      if (code !== 'present' && code !== 'pending') notes.push({ name, s });
+    } else if (wd === 0 || wd === 6) { cls += ' off'; what = 'วันหยุด'; }
+    else if (key < c.start) { cls += ' off'; what = 'ก่อนเปิดภาคเรียน'; }
+    else if (key < c.today) { cls += ' off'; what = 'วันหยุด'; }
+    else what = key === c.today ? 'วันนี้ไม่มีเรียน' : 'ยังไม่ถึง';
+    if (key === c.today) cls += ' is-today';
+    html += `<div class="${cls}" style="${style}" title="${what}" aria-label="${name} ${what}${key === c.today ? ' (วันนี้)' : ''}">${d}</div>`;
+  }
+  $('cal').innerHTML = html;
+  $('calTitle').textContent = TH_MONTHS[M.m] + ' ' + (M.y + 543);
+  $('calSum').textContent = 'มา ' + count.present + ' · ราชการ ' + count.duty + ' · ลา ' + count.leave + ' · สาย ' + count.late + ' · ขาด ' + count.absent;
+  $('calPrev').disabled = c.idx === 0;
+  $('calNext').disabled = c.idx === c.months.length - 1;
+  notes.reverse();
+  $('calNotes').classList.toggle('hide', !notes.length);
+  $('calNotes').innerHTML = '<h3>วันที่ควรทราบในเดือนนี้</h3>' + notes.map(n =>
+    `<div class="nrow"><span>${n.name}</span><span class="pill" style="background:${n.s.bg};color:${n.s.fg}">${n.s.label}</span></div>`).join('');
+}
+
+function moveMonth(step) {
+  const c = state.cal;
+  if (!c) return;
+  const i = c.idx + step;
+  if (i < 0 || i >= c.months.length) return;
+  c.idx = i; drawCalendar();
 }
 
 function backToSearch() {
@@ -442,6 +531,8 @@ async function init() {
   renderChips();
   $('form').addEventListener('submit', onSubmit);
   $('btnBack').addEventListener('click', backToSearch);
+  $('calPrev').addEventListener('click', () => moveMonth(-1));
+  $('calNext').addEventListener('click', () => moveMonth(1));
   try {
     const meta = await api({ action: 'meta' });
     state.grades = meta.grades;
