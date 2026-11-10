@@ -178,6 +178,14 @@
   .acts{display:flex;gap:8px}
   .acts .btn{flex:1;padding:12px}
   .acts .primary{background:var(--brand);color:var(--brand-ink)}
+  .acts{flex-wrap:wrap}
+  .sheet{max-height:calc(100dvh - 40px);overflow-y:auto}
+  .ov.sumonly .flow,.ov.sumonly .big{display:none}
+  #ovCopy{flex:1 1 100%}
+  .ltext{width:100%;min-height:250px;resize:vertical;font:inherit;font-size:14px;line-height:1.55;text-align:left;
+    border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);color:var(--ink);margin:0 0 10px}
+  .lhint{font-size:12.5px;color:var(--muted);margin:-4px 0 10px;text-align:left}
+  .acts .line{background:#06C755;color:#fff;text-decoration:none;display:flex;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
@@ -210,6 +218,7 @@
   <div id="banner"></div>
   <div class="tools" id="tools" hidden>
     <button class="btn ghost" id="allIn">✓ ทุกคนมาเรียน</button>
+    <button class="btn ghost" id="lineSum" hidden>📋 สรุปส่ง LINE</button>
   </div>
   <ol id="list"><li class="loading">กำลังโหลด…</li></ol>
 </main>
@@ -281,7 +290,7 @@ const CONFIG = {
   CLIENT_ID: '387152732131-gfk59erhm4uivcmi026n6qdnnr48uufd.apps.googleusercontent.com',
   API_URL:   'https://script.google.com/macros/s/AKfycbzAjHJ9dCA54T-S9XGVawR-VItftDt8OSifm4jlB_KwZx_skEL3d-1BkhKFYyVcVsysKA/exec'
 };
-const PAGE_VERSION = '2.1.0 (10 พ.ย. 69)';
+const PAGE_VERSION = '2.2.0 (10 พ.ย. 69)';
 const PEND_HIDE_KEY = 'kjst_att_pend_hide';
 const SCHOOL_DOMAIN = 'kjst.ac.th';
 const LAST_EMAIL_KEY = 'kjst_att_last_email';
@@ -395,6 +404,7 @@ async function load(){
     if (d.sheetName !== $('cls').value || d.dateKey !== $('date').value) return; // เปลี่ยนห้องระหว่างโหลด
     S.students = d.students; S.last = d.last; S.canEdit = d.canEdit;
     const recorded = S.students.some(s => s.status);
+    S.recorded = recorded;
     if (!recorded && S.canEdit) S.students.forEach(s => s.status = S.init.statuses[0]);
     setDirty(!recorded && S.canEdit && S.students.length > 0);
     renderAll(recorded);
@@ -445,7 +455,9 @@ function renderAll(recorded){
     $('list').innerHTML = '<li class="empty">ไม่พบรายชื่อนักเรียนในห้องนี้</li>';
     return;
   }
-  $('tools').hidden = !S.canEdit;
+  $('tools').hidden = !(S.canEdit || S.recorded);
+  $('allIn').hidden = !S.canEdit;
+  $('lineSum').hidden = !(S.recorded && !S.dirty);
   $('list').innerHTML = S.students.map(rowHtml).join('');
   renderCounts();
 }
@@ -464,6 +476,7 @@ function renderCounts(){
 
 function setDirty(v){
   S.dirty = v;
+  if ($('lineSum')) $('lineSum').hidden = !(S.recorded && !v);
   const b = $('save');
   b.classList.toggle('locked', !S.canEdit);
   b.classList.toggle('dirty', v && S.canEdit);
@@ -481,11 +494,48 @@ $('list').addEventListener('click', e => {
   renderCounts(); setDirty(true);
 });
 
+$('lineSum').addEventListener('click', () => { if (!S.busy) OV.summary(); });
 $('allIn').addEventListener('click', () => {
   S.students.forEach(s => s.status = S.init.statuses[0]);
   $('list').innerHTML = S.students.map(rowHtml).join('');
   renderCounts(); setDirty(true);
 });
+
+/* ---------- ข้อความสรุปสำหรับ LINE ---------- */
+const TH_WD = ['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+const TH_MON = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+function thaiDateFull(key){
+  const [y, m, d] = key.split('-').map(Number);
+  return 'วัน' + TH_WD[new Date(y, m - 1, d).getDay()] + 'ที่ ' + d + ' ' + TH_MON[m - 1] + ' ' + (y + 543);
+}
+function parentUrl(){ try{ return new URL('parent', location.href.split(/[?#]/)[0]).href; }catch(e){ return ''; } }
+function lineText(){
+  const st = S.init.statuses;
+  const by = k => S.students.filter(s => s.status === st[k]);
+  const line = (label, list) => label + ' ' + (list.length ? list.length : '-') + ' คน ได้แก่ ' +
+    (list.length ? list.map(s => s.name.replace(/\s+/g, ' ')).join(', ') : '-');
+  const blank = S.students.filter(s => !s.status);
+  const out = [
+    'สรุปการมาเรียนชั้น ' + S.cls + ' ' + thaiDateFull(S.date),
+    'นักเรียนมาเรียน ' + by(0).length + ' คน',
+    line('ไปราชการ/อื่นๆ', by(1)),
+    line('ลาป่วย/ลากิจ', by(2)),
+    line('มาสาย', by(3)),
+    line('ขาดเรียน', by(4))
+  ];
+  if (blank.length) out.push('ยังไม่ได้เช็กชื่อ ' + blank.length + ' คน');
+  const pu = parentUrl();
+  if (pu) out.push('ผู้ปกครองติดตามการมาเรียนของนักเรียนได้ที่ลิงก์', pu);
+  return out.join('\n');
+}
+async function copyText(txt, box, btn){
+  let ok = false;
+  try{ await navigator.clipboard.writeText(txt); ok = true; }catch(e){
+    try{ box.removeAttribute('readonly'); box.focus(); box.select(); ok = document.execCommand('copy'); box.setAttribute('readonly', ''); }catch(x){}
+  }
+  if (ok){ btn.textContent = '✓ คัดลอกแล้ว'; toast('คัดลอกแล้ว นำไปวางในแชท LINE ได้เลย'); setTimeout(() => btn.textContent = '📋 คัดลอกข้อความ', 2500); }
+  else { box.focus(); box.select(); toast('กดค้างที่ข้อความแล้วเลือก "คัดลอก"', true); }
+}
 
 /* ---------- หน้าจอกำลังบันทึก ---------- */
 const OV = {
@@ -493,6 +543,7 @@ const OV = {
   step(n, state){ $('st' + n).className = state || ''; },
   open(){
     const ov = $('ov'); ov.className = 'ov show';
+    $('bigIcon').textContent = '';
     $('ovSub').textContent = 'ห้อง ' + S.cls + ' · ' + thaiDate(S.date, true);
     [1,2,3].forEach(n => OV.step(n));
     OV.step(1, 'act');
@@ -514,9 +565,29 @@ const OV = {
     $('resSub').textContent = 'ห้อง ' + S.cls + ' · ' + thaiDate(S.date, true) + ' · เวลา ' + info.at.slice(11,16) + ' น.';
     $('resSum').innerHTML = SHORT.map((t, j) => c[j] ? '<span>' + t + ' <b>' + c[j] + '</b></span>' : '').join('') +
       (blank ? '<span>ยังไม่เช็ก <b>' + blank + '</b></span>' : '');
-    $('resActs').innerHTML = '<button class="btn primary" id="ovOk">ตกลง</button>';
+    S.recorded = true;
+    OV.lineBox();
     $('ov').className = 'ov show ok';
+  },
+  /** ข้อความสรุปสำหรับวางในแชท LINE + ปุ่มคัดลอก */
+  lineBox(){
+    const txt = lineText();
+    $('resSum').innerHTML += '<textarea class="ltext" id="ltext" readonly aria-label="ข้อความสรุปสำหรับ LINE"></textarea>' +
+      '<p class="lhint">กดคัดลอก แล้วไปวางในกลุ่มแชท LINE ของห้อง</p>';
+    $('ltext').value = txt;
+    $('resActs').innerHTML = '<button class="btn primary" id="ovCopy">📋 คัดลอกข้อความ</button>' +
+      '<a class="btn line" id="ovLine" target="_blank" rel="noopener" href="https://line.me/R/share?text=' + encodeURIComponent(txt) + '">ส่งทาง LINE</a>' +
+      '<button class="btn ghost" id="ovOk">ปิด</button>';
     $('ovOk').onclick = OV.close;
+    $('ovCopy').onclick = () => copyText(txt, $('ltext'), $('ovCopy'));
+  },
+  summary(){
+    $('bigIcon').textContent = '';
+    $('resTitle').textContent = 'สรุปการมาเรียน';
+    $('resSub').textContent = 'ห้อง ' + S.cls + ' · ' + thaiDate(S.date, true);
+    $('resSum').innerHTML = '';
+    OV.lineBox();
+    $('ov').className = 'ov show ok sumonly';
   },
   fail(msg, canRetry){
     OV.stop();
@@ -525,6 +596,7 @@ const OV = {
     $('resTitle').textContent = 'บันทึกไม่สำเร็จ';
     $('resSub').textContent = msg;
     $('resSum').innerHTML = '';
+    $('ov').classList.remove('sumonly');
     $('resActs').innerHTML = (canRetry ? '<button class="btn primary" id="ovRetry">ลองอีกครั้ง</button>' : '') +
       '<button class="btn ghost" id="ovClose">ปิด</button>';
     $('ov').className = 'ov show err';
@@ -543,7 +615,7 @@ async function doSave(){
       sheetName: S.cls, dateKey: S.date,
       ids: S.students.map(s => s.id), statuses: S.students.map(s => s.status)
     });
-    S.last = info; S.busy = false; setDirty(false); renderBanner(true);
+    S.last = info; S.busy = false; S.recorded = true; setDirty(false); renderBanner(true);
     if (info.pending){ S.init.pending = info.pending; renderDates(S.date); PEND.render(); }
     OV.success(info);
   }catch(e){
