@@ -373,7 +373,7 @@ const CONFIG = {
   CLIENT_ID: '387152732131-gfk59erhm4uivcmi026n6qdnnr48uufd.apps.googleusercontent.com',
   API_URL:   'https://script.google.com/macros/s/AKfycbzAjHJ9dCA54T-S9XGVawR-VItftDt8OSifm4jlB_KwZx_skEL3d-1BkhKFYyVcVsysKA/exec'
 };
-const PAGE_VERSION = '3.0.0 (19 พ.ย. 69)';
+const PAGE_VERSION = '3.0.1 (19 พ.ย. 69)';
 const PEND_HIDE_KEY = 'kjst_att_pend_hide';
 const SCHOOL_DOMAIN = 'kjst.ac.th';
 const LAST_EMAIL_KEY = 'kjst_att_last_email';
@@ -764,6 +764,7 @@ const CD = {
   hairEditable(){ return !!(CD.hair && CD.hair.canEdit && S.canEdit); },
   /** รับข้อมูลจาก API · คืน true ถ้ามีการคัดลอกผลทรงผมที่ยังไม่ได้บันทึก */
   load(c){
+    CD.on = !!(c && c.items && c.items.length);      // API 3.0+ และมีรายการตรวจ
     c = c || { items: [], dress: {}, hair: null };
     CD.items = c.items || []; CD.hair = c.hair; let pre = false;
     S.students.forEach(s => {
@@ -789,6 +790,7 @@ const CD = {
   },
   dressCount(){ return S.students.filter(s => s.dress && s.dress.items.length).length; },
   dressBtn(s, i){
+    if (!CD.on) return '';
     const n = s.dress ? s.dress.items.length : 0;
     if (!S.canEdit) return n ? '<span class="dbtn on" title="' + esc(s.dress.items.join(', ')) + '">⚠ ' + n + ' รายการ</span>' : '';
     const dis = CD.isPresent(s.status) ? '' : ' disabled';
@@ -874,6 +876,7 @@ const CD = {
   openPicker(i){
     if (!S.canEdit || S.busy) return;
     const s = S.students[i]; CD.pick = i;
+    if (!CD.items.length){ toast('ยังไม่มีรายการตรวจระเบียบจากระบบ กรุณาแจ้งผู้ดูแลระบบ', true); return; }
     $('dpTitle').textContent = 'ผิดระเบียบ · ' + s.name;
     const all = CD.items.slice(); s.dress.items.forEach(x => { if (all.indexOf(x) < 0) all.push(x); });
     $('dpItems').innerHTML = all.map((t, k) =>
