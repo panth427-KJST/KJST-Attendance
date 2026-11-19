@@ -89,6 +89,67 @@
   .save:disabled{opacity:.5}
   .save.locked{background:var(--chip);color:var(--muted);opacity:1}
   .save.dirty{box-shadow:0 0 0 3px rgba(11,93,140,.25)}
+  /* ตรวจระเบียบ / ทรงผม */
+  .who{justify-content:space-between}
+  .who .nm{display:flex;gap:8px;align-items:baseline;min-width:0}
+  .dbtn{font:inherit;font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;white-space:nowrap;cursor:pointer;
+    border:1px solid var(--line);background:var(--card);color:var(--muted);flex:none}
+  .dbtn.on{background:#FDE8E8;border-color:#DC2626;color:#B91C1C}
+  .dbtn:disabled{opacity:.4;cursor:not-allowed}
+  .hrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:7px;font-size:13px}
+  .hrow .lb{color:var(--muted);min-width:42px}
+  .hb{font:inherit;font-size:13px;font-weight:700;border:0;border-radius:7px;padding:4px 12px;background:var(--chip);color:var(--muted);cursor:pointer}
+  .hb.pass{background:#059669;color:#fff} .hb.fail{background:#DC2626;color:#fff}
+  .hb:disabled{cursor:not-allowed;opacity:.5}
+  .hchip{font-size:12.5px;font-weight:700;border-radius:7px;padding:3px 10px}
+  .hchip.pass{background:#DDF5EC;color:#065F46} .hchip.fail{background:#FDE8E8;color:#B91C1C}
+  .hchip.away{background:#E5E7EB;color:#374151} .hchip.none{background:var(--chip);color:var(--muted)}
+  .htag{font-size:11px;font-weight:700;color:#1E3A8A;background:#E3ECFE;border-radius:5px;padding:1px 7px}
+  .hhint{font-size:12px;color:var(--muted)}
+  .hhint.bad{color:#B91C1C}
+  .hnote{width:100%;font:inherit;font-size:14px;margin-top:6px;border:1.5px solid #DC2626;border-radius:8px;padding:7px 9px;background:var(--card);color:var(--ink)}
+  .hnote.err{box-shadow:0 0 0 3px rgba(220,38,38,.25)}
+  .hairbar{margin-top:8px;border-radius:10px;padding:8px 10px;font-size:13.5px;background:#E3ECFE;color:#1E3A8A;display:flex;flex-direction:column;gap:5px}
+  .hairbar b{font-weight:700}
+  .hairbar .pb{height:7px;border-radius:4px;background:rgba(30,58,138,.18);overflow:hidden}
+  .hairbar .pb i{display:block;height:100%;background:#059669}
+  .hairbar small{font-size:12.5px;font-weight:600}
+  /* แผงเลือกรายการผิดระเบียบ */
+  .dp .panel{display:flex;flex-direction:column;gap:8px;max-height:85dvh;overflow-y:auto}
+  .dp label{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px;cursor:pointer}
+  .dp label.on{border-color:#DC2626;background:#FDE8E8;color:#7F1D1D}
+  .dp input[type=checkbox]{width:18px;height:18px;accent-color:#DC2626}
+  .dp textarea{font:inherit;font-size:14px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);color:var(--ink);min-height:44px}
+  .dp .row3{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:8px}
+  .dp .row3 .btn{padding:11px 6px}
+  /* แอดมิน */
+  .adm{position:fixed;inset:0;z-index:18;background:var(--bg);overflow-y:auto;display:none}
+  .adm.show{display:block}
+  .adm .ah{position:sticky;top:0;background:var(--brand);color:var(--brand-ink);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;z-index:2}
+  .adm .ah b{font-size:17px}
+  .adm .ab{max-width:640px;margin:0 auto;padding:14px 16px 40px;display:flex;flex-direction:column;gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+  .card h4{margin:0;font-size:16px}
+  .card .meta{font-size:13px;color:var(--muted)}
+  .card .acts2{display:flex;gap:8px;flex-wrap:wrap}
+  .card .acts2 .btn{padding:7px 12px;font-size:14px}
+  .fld{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+  .fld input,.fld select{font:inherit;font-size:15px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+  .dchips{display:flex;flex-wrap:wrap;gap:6px}
+  .dchip{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:4px 10px;cursor:pointer}
+  .dchip.on{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+  .dchip.used{box-shadow:inset 0 0 0 2px #059669}
+  .mon{font-size:13px;font-weight:700;color:var(--muted);margin-top:4px}
+  .stbl{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+  .stbl th,.stbl td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:right}
+  .stbl th:first-child,.stbl td:first-child{text-align:left}
+  .stbl th{font-size:12.5px;color:var(--muted)}
+  .stbl tr.g td{font-weight:700;background:var(--chip)}
+  .stbl tr.room{cursor:pointer}
+  .todo{font-size:13px;color:var(--muted);padding:4px 6px 8px;text-align:left}
+  .pill2{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 9px}
+  .pill2.open{background:#DDF5EC;color:#065F46} .pill2.closed{background:var(--chip);color:var(--muted)}
+
   /* แถบวันค้างบันทึก */
   .pend{margin-top:8px;border-radius:10px;padding:8px 10px;font-size:13.5px;display:flex;flex-direction:column;gap:7px}
   .pend.warn{background:#FEF3C7;color:#6B4200}
@@ -212,6 +273,7 @@
     <select id="date" aria-label="วันที่" disabled></select>
   </div>
   <div class="pend" id="pend" hidden></div>
+  <div class="hairbar" id="hairBar" hidden></div>
 </header>
 
 <main>
@@ -239,11 +301,32 @@
     <h3 id="asTitle">บัญชีที่ใช้งานอยู่</h3>
     <div class="cur" id="asCur"></div>
     <div class="stack">
+      <button class="btn ghost" id="asAdmin" type="button" hidden>✂ จัดการรอบตรวจทรงผม (แอดมิน)</button>
       <button class="btn primary" id="asSwitch" type="button">เปลี่ยนบัญชี / ออกจากระบบ</button>
       <button class="btn ghost" id="asClose" type="button">ใช้บัญชีนี้ต่อ</button>
     </div>
     <p class="tip">กด <b>เปลี่ยนบัญชี</b> แล้วเลือกบัญชี Google ที่ได้รับสิทธิ์จากรายการ ระบบจะจำบัญชีใหม่ไว้ในเครื่องนี้</p>
   </div>
+</div>
+
+<!-- แผงเลือกรายการผิดระเบียบ -->
+<div class="as dp" id="dp" role="dialog" aria-modal="true" aria-labelledby="dpTitle">
+  <div class="panel">
+    <h3 id="dpTitle">ผิดระเบียบ</h3>
+    <div id="dpItems" style="display:flex;flex-direction:column;gap:8px"></div>
+    <textarea id="dpNote" placeholder="หมายเหตุ (ไม่บังคับ)" maxlength="200"></textarea>
+    <div class="row3">
+      <button class="btn ghost" id="dpClear" type="button">ล้างทั้งหมด</button>
+      <button class="btn ghost" id="dpCancel" type="button">ยกเลิก</button>
+      <button class="btn primary" id="dpOk" type="button" style="background:var(--brand);color:var(--brand-ink)">ตกลง</button>
+    </div>
+  </div>
+</div>
+
+<!-- แอดมิน: รอบตรวจทรงผม -->
+<div class="adm" id="adm" role="dialog" aria-modal="true">
+  <div class="ah"><b id="admTitle">รอบตรวจทรงผม</b><button class="btn" id="admClose" type="button" style="background:rgba(255,255,255,.18);color:inherit">ปิด</button></div>
+  <div class="ab" id="admBody"></div>
 </div>
 
 <!-- หน้าจอกำลังบันทึก -->
@@ -267,7 +350,7 @@
       <p class="sub" id="ovSub"></p>
       <ol class="steps">
         <li id="st1"><span class="dot"></span>ส่งข้อมูลจากมือถือ</li>
-        <li id="st2"><span class="dot"></span>เขียนลงไฟล์ E-Attendance</li>
+        <li id="st2"><span class="dot"></span>เขียนลงไฟล์ (เวลาเรียน · แต่งกาย · ทรงผม)</li>
         <li id="st3"><span class="dot"></span>ตรวจสอบว่าบันทึกครบ</li>
       </ol>
       <div class="note">⚠ กรุณารอจนขึ้นว่า “บันทึกสำเร็จ”<br>อย่าปิดหน้านี้หรือเปลี่ยนห้อง</div>
@@ -290,7 +373,7 @@ const CONFIG = {
   CLIENT_ID: '387152732131-gfk59erhm4uivcmi026n6qdnnr48uufd.apps.googleusercontent.com',
   API_URL:   'https://script.google.com/macros/s/AKfycbzAjHJ9dCA54T-S9XGVawR-VItftDt8OSifm4jlB_KwZx_skEL3d-1BkhKFYyVcVsysKA/exec'
 };
-const PAGE_VERSION = '2.2.0 (10 พ.ย. 69)';
+const PAGE_VERSION = '3.0.0 (19 พ.ย. 69)';
 const PEND_HIDE_KEY = 'kjst_att_pend_hide';
 const SCHOOL_DOMAIN = 'kjst.ac.th';
 const LAST_EMAIL_KEY = 'kjst_att_last_email';
@@ -397,7 +480,7 @@ async function load(){
   PEND.render();
   ls.set(LS_KEY, S.cls);
   $('list').innerHTML = '<li class="loading">กำลังโหลดรายชื่อ ' + esc(S.cls) + '…</li>';
-  $('tools').hidden = true; $('banner').innerHTML = ''; $('counts').innerHTML = '';
+  $('tools').hidden = true; $('hairBar').hidden = true; $('banner').innerHTML = ''; $('counts').innerHTML = '';
   $('save').disabled = true;
   try{
     const d = await api('classData', { sheetName: S.cls, dateKey: S.date });
@@ -406,7 +489,8 @@ async function load(){
     const recorded = S.students.some(s => s.status);
     S.recorded = recorded;
     if (!recorded && S.canEdit) S.students.forEach(s => s.status = S.init.statuses[0]);
-    setDirty(!recorded && S.canEdit && S.students.length > 0);
+    const prefilled = CD.load(d.conduct);
+    setDirty(S.canEdit && S.students.length > 0 && (!recorded || prefilled));
     renderAll(recorded);
   }catch(e){
     if (e.code === 'AUTH') return AUTH.expired(errMsg(e));
@@ -441,11 +525,12 @@ function renderBanner(recorded){
 function rowHtml(s, i){
   const k = S.init.statuses.indexOf(s.status);
   return '<li class="stu' + (k < 0 && S.canEdit ? ' blank' : '') + '" id="r' + i + '">' +
-    '<div class="who"><span class="no">' + esc(s.no) + '</span><span class="name">' + esc(s.name) + '</span></div>' +
+    '<div class="who"><span class="nm"><span class="no">' + esc(s.no) + '</span><span class="name">' + esc(s.name) + '</span></span>' +
+    CD.dressBtn(s, i) + '</div>' +
     '<div class="seg">' + SHORT.map((t, j) =>
       '<button data-i="' + i + '" data-k="' + j + '" class="' + (j === k ? 'on' : '') + '"' +
       (S.canEdit ? '' : ' aria-disabled="true"') + '>' + t + '</button>').join('') +
-    '</div></li>';
+    '</div>' + CD.hairRow(s, i) + '</li>';
 }
 
 function renderAll(recorded){
@@ -460,6 +545,7 @@ function renderAll(recorded){
   $('lineSum').hidden = !(S.recorded && !S.dirty);
   $('list').innerHTML = S.students.map(rowHtml).join('');
   renderCounts();
+  CD.renderBar();
 }
 
 function countsOf(){
@@ -471,7 +557,8 @@ function renderCounts(){
   const { c, blank } = countsOf();
   $('counts').innerHTML = '<span>ทั้งหมด<b>' + S.students.length + '</b></span>' +
     SHORT.map((t, j) => c[j] ? '<span>' + t + '<b>' + c[j] + '</b></span>' : '').join('') +
-    (blank ? '<span style="color:var(--leave)">ยังไม่เช็ก<b>' + blank + '</b></span>' : '');
+    (blank ? '<span style="color:var(--leave)">ยังไม่เช็ก<b>' + blank + '</b></span>' : '') +
+    (CD.dressCount() ? '<span style="color:#B91C1C">ผิดระเบียบ<b>' + CD.dressCount() + '</b></span>' : '');
 }
 
 function setDirty(v){
@@ -486,12 +573,27 @@ function setDirty(v){
 }
 
 $('list').addEventListener('click', e => {
+  const dbtn = e.target.closest('button[data-dress]');
+  if (dbtn){ CD.openPicker(+dbtn.dataset.dress); return; }
+  const hb = e.target.closest('button[data-hair]');
+  if (hb){ CD.setHair(+hb.dataset.hi, hb.dataset.hair); return; }
   const b = e.target.closest('button[data-i]'); if (!b) return;
   if (!S.canEdit){ toast('🔒 ห้องนี้ดูได้อย่างเดียว', true); return; }
-  const i = +b.dataset.i, k = +b.dataset.k;
-  S.students[i].status = S.init.statuses[k];
-  $('r' + i).outerHTML = rowHtml(S.students[i], i);
+  const i = +b.dataset.i, k = +b.dataset.k, s = S.students[i];
+  const next = S.init.statuses[k];
+  if (!CD.isPresent(next) && s.dress && s.dress.items.length){
+    if (!confirm(s.name + ' มีรายการผิดระเบียบ ' + s.dress.items.length + ' รายการ\nเปลี่ยนเป็น "' + SHORT[k] + '" จะล้างรายการนี้ ต้องการเปลี่ยนหรือไม่?')) return;
+    s.dress = { items: [], note: '' };
+  }
+  s.status = next;
+  CD.refreshRow(i);
   renderCounts(); setDirty(true);
+});
+$('list').addEventListener('input', e => {
+  const t = e.target.closest('textarea[data-hnote]'); if (!t) return;
+  S.students[+t.dataset.hnote].hair.note = t.value;
+  t.classList.toggle('err', !t.value.trim());
+  setDirty(true);
 });
 
 $('lineSum').addEventListener('click', () => { if (!S.busy) OV.summary(); });
@@ -564,7 +666,7 @@ const OV = {
     $('resTitle').textContent = 'บันทึกสำเร็จ';
     $('resSub').textContent = 'ห้อง ' + S.cls + ' · ' + thaiDate(S.date, true) + ' · เวลา ' + info.at.slice(11,16) + ' น.';
     $('resSum').innerHTML = SHORT.map((t, j) => c[j] ? '<span>' + t + ' <b>' + c[j] + '</b></span>' : '').join('') +
-      (blank ? '<span>ยังไม่เช็ก <b>' + blank + '</b></span>' : '');
+      (blank ? '<span>ยังไม่เช็ก <b>' + blank + '</b></span>' : '') + CD.successChips(info.conduct);
     S.recorded = true;
     OV.lineBox();
     $('ov').className = 'ov show ok';
@@ -611,10 +713,11 @@ async function doSave(){
   S.busy = true; $('save').disabled = true;
   OV.open();
   try{
-    const info = await api('save', {
+    const info = await api('save', Object.assign({
       sheetName: S.cls, dateKey: S.date,
       ids: S.students.map(s => s.id), statuses: S.students.map(s => s.status)
-    });
+    }, CD.payload()));
+    CD.afterSave();
     S.last = info; S.busy = false; S.recorded = true; setDirty(false); renderBanner(true);
     if (info.pending){ S.init.pending = info.pending; renderDates(S.date); PEND.render(); }
     OV.success(info);
@@ -630,6 +733,9 @@ async function doSave(){
 
 $('save').addEventListener('click', () => {
   if (S.busy) return;
+  if (!CD.validate()) return;
+  const hairTodo = CD.hairTodo();
+  if (hairTodo && !confirm('ยังไม่ได้ตรวจทรงผม ' + hairTodo + ' คน (ไม่บังคับ)\nบันทึกตอนนี้ แล้วกลับมาตรวจเพิ่มภายในวันนี้ได้ ต้องการบันทึกหรือไม่?')) return;
   const blank = S.students.filter(s => !s.status).length;
   if (blank && !confirm('ยังมีนักเรียนที่ไม่ได้เช็ก ' + blank + ' คน ต้องการบันทึกหรือไม่?')) return;
   doSave();
@@ -647,6 +753,238 @@ $('date').addEventListener('change', e => guardChange(e.target, S.date));
 window.addEventListener('beforeunload', e => {
   if (S.busy || (S.dirty && S.canEdit && !$('app').hidden)){ e.preventDefault(); e.returnValue = ''; }
 });
+
+/* ---------- ตรวจระเบียบแต่งกาย / ทรงผม ---------- */
+const HP = 'ผ่าน', HF = 'ไม่ผ่าน';
+const CD = {
+  items: [], hair: null, pick: -1,
+  sid(id){ const s = String(id || '').trim(); return /^\d{1,5}$/.test(s) ? ('00000' + s).slice(-5) : s; },
+  isPresent(st){ return st === S.init.statuses[0] || st === S.init.statuses[3]; },
+  isAbsent(st){ return !!st && !CD.isPresent(st); },
+  hairEditable(){ return !!(CD.hair && CD.hair.canEdit && S.canEdit); },
+  /** รับข้อมูลจาก API · คืน true ถ้ามีการคัดลอกผลทรงผมที่ยังไม่ได้บันทึก */
+  load(c){
+    c = c || { items: [], dress: {}, hair: null };
+    CD.items = c.items || []; CD.hair = c.hair; let pre = false;
+    S.students.forEach(s => {
+      const id = CD.sid(s.id), dr = (c.dress || {})[id];
+      s.dress = dr ? { items: dr.items.slice(), note: dr.note || '' } : { items: [], note: '' };
+      s.hair = null;
+      if (!c.hair) return;
+      const h = c.hair.rows[id] || { before: 'none' };
+      s.hb = h.before; s.lastFail = h.lastFail;
+      const t = h.today;
+      if (t && (t.result === HP || t.result === HF)) s.hair = { res: t.result, note: t.note || '', copied: t.source === 'คัดลอก', saved: true };
+      else if (t && t.result === 'ไม่อยู่') s.hair = { res: '', note: '', saved: true };
+      else if (h.before === 'pass' && CD.hairEditable() && !CD.isAbsent(s.status)){ s.hair = { res: HP, note: '', copied: true }; pre = true; }
+      else s.hair = { res: '', note: '' };
+    });
+    return pre;
+  },
+  eff(s){
+    if (!s.hair) return 'none';
+    if (!CD.isAbsent(s.status) && s.hair.res) return s.hair.res === HP ? 'pass' : 'fail';
+    if (CD.isAbsent(s.status)) return (s.hb === 'pass' || s.hb === 'fail') ? s.hb : 'away';
+    return s.hb || 'none';
+  },
+  dressCount(){ return S.students.filter(s => s.dress && s.dress.items.length).length; },
+  dressBtn(s, i){
+    const n = s.dress ? s.dress.items.length : 0;
+    if (!S.canEdit) return n ? '<span class="dbtn on" title="' + esc(s.dress.items.join(', ')) + '">⚠ ' + n + ' รายการ</span>' : '';
+    const dis = CD.isPresent(s.status) ? '' : ' disabled';
+    return '<button type="button" class="dbtn' + (n ? ' on' : '') + '" data-dress="' + i + '"' + dis + '>' +
+      (n ? '⚠ ' + n + ' รายการ' : 'ผิดระเบียบ') + '</button>';
+  },
+  hairRow(s, i){
+    if (!CD.hair || !s.hair) return '';
+    const lb = '<span class="lb">ทรงผม</span>';
+    if (CD.isAbsent(s.status)){
+      const ok = s.hb === 'pass';
+      return '<div class="hrow">' + lb + '<span class="hchip away">➖ ไม่อยู่</span><span class="hhint">' +
+        (ok ? 'ผ่านแล้วในรอบนี้' : 'ตรวจซ้ำวันถัดไป') + '</span></div>';
+    }
+    if (!CD.hairEditable()){
+      const e = s.hair.res ? (s.hair.res === HP ? 'pass' : 'fail') : CD.eff(s);
+      const txt = { pass: '✅ ผ่าน', fail: '❌ ไม่ผ่าน', away: '➖ ไม่อยู่', none: '⚪ ยังไม่ได้ตรวจ' }[e];
+      return '<div class="hrow">' + lb + '<span class="hchip ' + e + '">' + txt + '</span>' +
+        (s.hair.res === HF && s.hair.note ? '<span class="hhint bad">' + esc(s.hair.note) + '</span>' : '') + '</div>';
+    }
+    const dis = s.status ? '' : ' disabled';
+    let out = '<div class="hrow">' + lb +
+      '<button type="button" class="hb' + (s.hair.res === HP ? ' pass' : '') + '" data-hair="' + HP + '" data-hi="' + i + '"' + dis + '>ผ่าน</button>' +
+      '<button type="button" class="hb' + (s.hair.res === HF ? ' fail' : '') + '" data-hair="' + HF + '" data-hi="' + i + '"' + dis + '>ไม่ผ่าน</button>';
+    if (s.hair.res === HP && s.hair.copied) out += '<span class="htag">คัดลอกจากวันก่อน</span>';
+    else if (!s.hair.res && s.hb === 'fail' && s.lastFail) out += '<span class="hhint bad">❌ ' + esc(thaiDate(s.lastFail.date)) + (s.lastFail.note ? ': ' + esc(s.lastFail.note) : '') + '</span>';
+    else if (!s.hair.res && s.hb === 'away') out += '<span class="hhint">ไม่อยู่วันก่อน</span>';
+    else if (!s.status) out += '<span class="hhint">เช็กชื่อก่อน</span>';
+    out += '</div>';
+    if (s.hair.res === HF) out += '<textarea class="hnote' + (s.hair.note.trim() ? '' : ' err') + '" rows="1" maxlength="200" data-hnote="' + i +
+      '" placeholder="หมายเหตุ (บังคับ) เช่น ยาวเกินกำหนด ทำสี ไถข้าง">' + esc(s.hair.note) + '</textarea>';
+    return out;
+  },
+  refreshRow(i){ $('r' + i).outerHTML = rowHtml(S.students[i], i); CD.renderBar(); },
+  setHair(i, res){
+    if (!CD.hairEditable() || !S.canEdit) return;
+    const s = S.students[i];
+    s.hair.res = s.hair.res === res ? '' : res;
+    s.hair.copied = false;
+    CD.refreshRow(i); setDirty(true);
+    if (s.hair.res === HF){ const t = document.querySelector('textarea[data-hnote="' + i + '"]'); if (t) t.focus(); }
+  },
+  renderBar(){
+    const box = $('hairBar'), H = CD.hair;
+    if (!H || !S.students.length){ box.hidden = true; return; }
+    const k = { pass: 0, fail: 0, away: 0, none: 0 };
+    S.students.forEach(s => k[CD.eff(s)]++);
+    const n = S.students.length, name = String(H.title || '').replace(/^ตรวจทรงผม\s*/, '');
+    const mode = CD.hairEditable() ? (H.isToday ? 'บันทึกผลภายในวันนี้' : 'แก้ไขโดยแอดมิน')
+      : (H.status === 'closed' ? 'ปิดรอบแล้ว · ดูอย่างเดียว' : 'ดูอย่างเดียว · ครูบันทึกได้เฉพาะวันตรวจ');
+    box.hidden = false;
+    box.innerHTML = '<b>✂ ' + (H.isToday ? 'วันนี้ตรวจทรงผม' : 'วันตรวจทรงผม') + ' (วันที่ ' + H.day + '/' + H.days + ' ของรอบ ' + esc(name) + ')</b>' +
+      '<div class="pb"><i style="width:' + Math.round(k.pass * 100 / n) + '%"></i></div>' +
+      '<small>ผ่าน ' + k.pass + '/' + n + ' คน · ไม่ผ่าน ' + k.fail + ' · ยังไม่ได้ตรวจ ' + k.none + ' · ไม่อยู่ ' + k.away + ' · ' + mode + '</small>';
+  },
+  hairTodo(){
+    if (!CD.hairEditable()) return 0;
+    return S.students.filter(s => CD.isPresent(s.status) && s.hair && !s.hair.res).length;
+  },
+  validate(){
+    if (!CD.hairEditable()) return true;
+    const i = S.students.findIndex(s => CD.isPresent(s.status) && s.hair && s.hair.res === HF && !s.hair.note.trim());
+    if (i < 0) return true;
+    toast('ทรงผม "ไม่ผ่าน" ต้องกรอกหมายเหตุ: ' + S.students[i].name, true);
+    const t = document.querySelector('textarea[data-hnote="' + i + '"]');
+    if (t){ t.scrollIntoView({ block: 'center' }); t.focus(); }
+    return false;
+  },
+  payload(){
+    return {
+      dress: S.students.map(s => ({ items: s.dress ? s.dress.items : [], note: s.dress ? s.dress.note : '' })),
+      hair: CD.hair ? S.students.map(s => ({ result: s.hair ? s.hair.res : '', note: s.hair ? s.hair.note : '', copied: !!(s.hair && s.hair.copied) })) : []
+    };
+  },
+  afterSave(){ S.students.forEach(s => { if (s.hair) s.hair.saved = true; }); },
+  successChips(c){
+    if (!c) return '';
+    let h = c.dress ? '<span>ผิดระเบียบ <b>' + c.dress + ' คน</b></span>' : '';
+    if (c.hair) h += '<span>✂ ทรงผมผ่าน <b>' + c.hair.counts.pass + '/' + c.hair.n + '</b></span>';
+    return h;
+  },
+  /* แผงเลือกรายการผิดระเบียบ */
+  openPicker(i){
+    if (!S.canEdit || S.busy) return;
+    const s = S.students[i]; CD.pick = i;
+    $('dpTitle').textContent = 'ผิดระเบียบ · ' + s.name;
+    const all = CD.items.slice(); s.dress.items.forEach(x => { if (all.indexOf(x) < 0) all.push(x); });
+    $('dpItems').innerHTML = all.map((t, k) =>
+      '<label class="' + (s.dress.items.indexOf(t) >= 0 ? 'on' : '') + '"><input type="checkbox" value="' + esc(t) + '"' +
+      (s.dress.items.indexOf(t) >= 0 ? ' checked' : '') + '>' + esc(t) + '</label>').join('');
+    $('dpNote').value = s.dress.note || '';
+    $('dp').classList.add('show');
+  },
+  closePicker(){ $('dp').classList.remove('show'); CD.pick = -1; }
+};
+$('dpItems').addEventListener('change', e => { const l = e.target.closest('label'); if (l) l.classList.toggle('on', e.target.checked); });
+$('dpClear').onclick = () => { $('dpItems').querySelectorAll('input').forEach(x => { x.checked = false; x.closest('label').classList.remove('on'); }); $('dpNote').value = ''; };
+$('dpCancel').onclick = CD.closePicker;
+$('dp').onclick = e => { if (e.target === $('dp')) CD.closePicker(); };
+$('dpOk').onclick = () => {
+  const i = CD.pick; if (i < 0) return;
+  const items = [...$('dpItems').querySelectorAll('input:checked')].map(x => x.value);
+  S.students[i].dress = { items: items, note: items.length ? $('dpNote').value.trim() : '' };
+  CD.closePicker(); CD.refreshRow(i); renderCounts(); setDirty(true);
+};
+
+/* ---------- แอดมิน: รอบตรวจทรงผม ---------- */
+const ADM = {
+  data: null, edit: null,
+  async open(){
+    ACCT.close();
+    $('adm').classList.add('show'); $('admTitle').textContent = 'รอบตรวจทรงผม';
+    $('admBody').innerHTML = '<p class="empty">กำลังโหลด…</p>';
+    try{ ADM.data = await api('rounds'); ADM.list(); }
+    catch(e){ if (e.code === 'AUTH') return AUTH.expired(errMsg(e)); $('admBody').innerHTML = '<p class="empty">' + esc(errMsg(e)) + '</p>'; }
+  },
+  close(){ $('adm').classList.remove('show'); if (S.cls && !S.dirty) load(); },
+  fmtDates(ds){ return ds.map(d => esc(thaiDate(d))).join(', '); },
+  list(){
+    const D = ADM.data; $('admTitle').textContent = 'รอบตรวจทรงผม';
+    let h = '<button class="btn primary" id="admNew" style="background:var(--brand);color:var(--brand-ink);padding:12px">+ สร้างรอบใหม่</button>';
+    if (!D.rounds.length) h += '<p class="empty">ยังไม่มีรอบตรวจ</p>';
+    h += D.rounds.map((r, k) => '<div class="card"><h4>' + esc(r.title) + ' <span class="pill2 ' + r.status + '">' + (r.status === 'open' ? 'เปิด' : 'ปิดแล้ว') + '</span></h4>' +
+      '<div class="meta">' + esc(r.round_id) + ' · ' + r.dates.length + ' วัน: ' + ADM.fmtDates(r.dates) + '</div>' +
+      '<div class="acts2"><button class="btn primary" data-sum="' + k + '" style="background:var(--brand);color:var(--brand-ink)">ดูสรุป</button>' +
+      '<button class="btn ghost" data-edit="' + k + '">แก้ไขวัน</button>' +
+      '<button class="btn ghost" data-toggle="' + k + '">' + (r.status === 'open' ? 'ปิดรอบ' : 'เปิดรอบอีกครั้ง') + '</button></div></div>').join('');
+    $('admBody').innerHTML = h;
+    $('admNew').onclick = () => ADM.form(null);
+    $('admBody').querySelectorAll('[data-sum]').forEach(b => b.onclick = () => ADM.summary(D.rounds[+b.dataset.sum].round_id));
+    $('admBody').querySelectorAll('[data-edit]').forEach(b => b.onclick = () => ADM.form(D.rounds[+b.dataset.edit]));
+    $('admBody').querySelectorAll('[data-toggle]').forEach(b => b.onclick = () => {
+      const r = D.rounds[+b.dataset.toggle];
+      const st = r.status === 'open' ? 'closed' : 'open';
+      if (!confirm((st === 'closed' ? 'ปิดรอบ ' : 'เปิดรอบ ') + r.title + ' ?')) return;
+      ADM.save(Object.assign({}, r, { status: st, isNew: false }));
+    });
+  },
+  form(r){
+    const D = ADM.data, isNew = !r;
+    const used = {}; (r ? r.dates : []).forEach(d => used[d] = true);
+    ADM.edit = { isNew: isNew, sel: Object.assign({}, used) };
+    const today = D.today, [ty, tm] = today.split('-').map(Number);
+    const days = D.schoolDays.filter(d => d >= today || used[d]);
+    const byMon = {}; days.forEach(d => { const k = d.slice(0, 7); (byMon[k] = byMon[k] || []).push(d); });
+    const defId = 'HC-' + (ty + 543) + '-' + ('0' + tm).slice(-2), defTitle = 'ตรวจทรงผม ' + TH_MON[tm - 1] + ' ' + (ty + 543);
+    $('admTitle').textContent = isNew ? 'สร้างรอบตรวจทรงผม' : 'แก้ไข ' + r.title;
+    $('admBody').innerHTML = '<div class="card">' +
+      '<label class="fld">รหัสรอบ<input id="fId" value="' + esc(r ? r.round_id : defId) + '"' + (isNew ? '' : ' disabled') + '></label>' +
+      '<label class="fld">ชื่อรอบ<input id="fTitle" value="' + esc(r ? r.title : defTitle) + '"></label>' +
+      '<div class="fld">วันตรวจ (แตะเลือก 3–5 วัน ไม่ต้องติดกัน)</div>' +
+      Object.keys(byMon).map(k => { const [y, m] = k.split('-').map(Number);
+        return '<div class="mon">' + TH_MON[m - 1] + ' ' + (y + 543) + '</div><div class="dchips">' +
+          byMon[k].map(d => '<button type="button" class="dchip' + (used[d] ? ' on' : '') + '" data-d="' + d + '">' + esc(thaiDate(d)) + '</button>').join('') + '</div>'; }).join('') +
+      '<label class="fld">สถานะ<select id="fSt"><option value="open">เปิด (ครูบันทึกได้ในวันตรวจ)</option><option value="closed">ปิดรอบ</option></select></label>' +
+      '<label class="fld">หมายเหตุ<input id="fNote" value="' + esc(r ? r.note || '' : '') + '"></label>' +
+      '<div class="acts2"><button class="btn primary" id="fSave" style="background:var(--brand);color:var(--brand-ink)">บันทึกรอบ</button><button class="btn ghost" id="fBack">ย้อนกลับ</button></div></div>';
+    $('fSt').value = r ? r.status : 'open';
+    $('admBody').querySelectorAll('.dchip').forEach(b => b.onclick = () => {
+      const d = b.dataset.d; ADM.edit.sel[d] = !ADM.edit.sel[d]; b.classList.toggle('on', !!ADM.edit.sel[d]);
+    });
+    $('fBack').onclick = ADM.list;
+    $('fSave').onclick = () => ADM.save({
+      isNew: isNew, round_id: $('fId').value.trim(), title: $('fTitle').value.trim(),
+      dates: Object.keys(ADM.edit.sel).filter(d => ADM.edit.sel[d]).sort(),
+      status: $('fSt').value, note: $('fNote').value.trim()
+    });
+  },
+  async save(round){
+    $('admBody').insertAdjacentHTML('afterbegin', '<p class="empty" id="admWait">กำลังบันทึก…</p>');
+    try{ ADM.data = await api('saveRound', { round: round }); toast('บันทึกรอบแล้ว'); ADM.list(); }
+    catch(e){ const w = $('admWait'); if (w) w.remove(); toast(errMsg(e), true); }
+  },
+  async summary(id){
+    $('admBody').innerHTML = '<p class="empty">กำลังสรุป…</p>';
+    try{
+      const s = await api('hairSummary', { round_id: id });
+      $('admTitle').textContent = 'สรุป ' + s.round.title;
+      const row = (name, n, c, cls, k) => '<tr class="' + cls + '"' + (k != null ? ' data-room="' + k + '"' : '') + '><td>' + name + '</td><td>' + c.pass + '/' + n + '</td><td>' + c.fail + '</td><td>' + c.away + '</td><td>' + c.none + '</td></tr>';
+      let h = '<div class="card"><div class="meta">' + s.round.round_id + ' · ' + ADM.fmtDates(s.round.dates) + ' · แตะชื่อห้องเพื่อดูรายชื่อที่ยังไม่ผ่าน</div>' +
+        '<div style="overflow-x:auto"><table class="stbl"><tr><th>ห้อง</th><th>ผ่าน</th><th>ไม่ผ่าน</th><th>ไม่อยู่</th><th>ยังไม่ตรวจ</th></tr>';
+      s.grades.forEach(g => {
+        h += row('ระดับ ' + g.grade, g.n, g.counts, 'g');
+        s.rooms.forEach((r, k) => { if (r.room.split('/')[0] === g.grade) h += row(r.room, r.n, r.counts, 'room', k) +
+          '<tr hidden id="todo' + k + '"><td colspan="5" class="todo">' + (r.todo.length ? r.todo.map(t => esc(t.no + ' ' + t.name) + ' — ' +
+            ({ fail: '❌ ไม่ผ่าน', away: '➖ ไม่อยู่', none: '⚪ ยังไม่ได้ตรวจ' }[t.st]) + (t.note ? ' (' + esc(t.note) + ')' : '')).join('<br>') : 'ผ่านครบทุกคน') + '</td></tr>'; });
+      });
+      h += '</table></div><button class="btn ghost" id="sBack">ย้อนกลับ</button></div>';
+      $('admBody').innerHTML = h;
+      $('admBody').querySelectorAll('tr.room').forEach(tr => tr.onclick = () => { const t = $('todo' + tr.dataset.room); t.hidden = !t.hidden; });
+      $('sBack').onclick = ADM.list;
+    }catch(e){ toast(errMsg(e), true); ADM.list(); }
+  }
+};
+$('asAdmin').onclick = ADM.open;
+$('admClose').onclick = ADM.close;
 
 /* ---------- แถบวันค้างบันทึก ---------- */
 const PEND = {
@@ -715,6 +1053,7 @@ const ACCT = {
       cur.className = 'cur';
       cur.innerHTML = '<b>' + esc(I.email) + '</b><br>บันทึกได้ ' + I.editable.length + ' ห้อง: ' + I.editable.map(esc).join(', ');
     }
+    $('asAdmin').hidden = !I.isAdmin;
     $('asTitle').textContent = noRights ? 'บัญชีนี้ไม่มีสิทธิ์บันทึก' : 'บัญชีที่ใช้งานอยู่';
     $('asClose').textContent = !I.editable.length ? 'ดูข้อมูลอย่างเดียว' : 'ใช้บัญชีนี้ต่อ';
     $('as').classList.add('show');
