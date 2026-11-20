@@ -114,6 +114,11 @@
   .hairbar .pb{height:7px;border-radius:4px;background:rgba(30,58,138,.18);overflow:hidden}
   .hairbar .pb i{display:block;height:100%;background:#059669}
   .hairbar small{font-size:12.5px;font-weight:600}
+  /* เสนอตัดคะแนน */
+  .prop{margin-top:8px;border:1.5px solid #DC2626;background:#FEF2F2;color:#7F1D1D;border-radius:10px;padding:8px 10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+  .prop b{display:block;font-size:13.5px}
+  .prop small{display:block;font-size:12px;color:#991B1B;margin-top:2px}
+  .prop .btn{background:#DC2626;color:#fff;border:0;font-size:14px;padding:8px 14px;border-radius:9px;font-weight:700}
   /* แผงเลือกรายการผิดระเบียบ */
   .dp .panel{display:flex;flex-direction:column;gap:8px;max-height:85dvh;overflow-y:auto}
   .dp label{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px;cursor:pointer}
@@ -532,7 +537,7 @@ function rowHtml(s, i){
     '<div class="seg">' + SHORT.map((t, j) =>
       '<button data-i="' + i + '" data-k="' + j + '" class="' + (j === k ? 'on' : '') + '"' +
       (S.canEdit ? '' : ' aria-disabled="true"') + '>' + t + '</button>').join('') +
-    '</div>' + CD.hairRow(s, i) + '</li>';
+    '</div>' + CD.hairRow(s, i) + CD.proposeRow(s, i) + '</li>';
 }
 
 function renderAll(recorded){
@@ -575,6 +580,8 @@ function setDirty(v){
 }
 
 $('list').addEventListener('click', e => {
+  const pb = e.target.closest('button[data-prop]');
+  if (pb){ CD.sendPropose(+pb.dataset.prop, pb.dataset.kind); return; }
   const dbtn = e.target.closest('button[data-dress]');
   if (dbtn){ CD.openPicker(+dbtn.dataset.dress); return; }
   const hb = e.target.closest('button[data-hair]');
@@ -723,6 +730,7 @@ async function doSave(){
     S.last = info; S.busy = false; S.recorded = true; setDirty(false); renderBanner(true);
     if (info.pending){ S.init.pending = info.pending; renderDates(S.date); PEND.render(); }
     OV.success(info);
+    CD.refreshPropose();
   }catch(e){
     S.busy = false; setDirty(true);
     const msg = errMsg(e);
@@ -768,6 +776,7 @@ const CD = {
   load(c){
     CD.on = !!(c && c.items && c.items.length);      // API 3.0+ และมีรายการตรวจ
     c = c || { items: [], dress: {}, hair: null };
+    CD.propose = c.propose || {};
     CD.items = c.items || []; CD.hair = c.hair; let pre = false;
     S.students.forEach(s => {
       const id = CD.sid(s.id), dr = (c.dress || {})[id];
@@ -825,6 +834,34 @@ const CD = {
     if (s.hair.res === HF) out += '<textarea class="hnote' + (s.hair.note.trim() ? '' : ' err') + '" rows="1" maxlength="200" data-hnote="' + i +
       '" placeholder="หมายเหตุ (บังคับ) เช่น ยาวเกินกำหนด ทำสี ไถข้าง">' + esc(s.hair.note) + '</textarea>';
     return out;
+  },
+  /** ถึงเกณฑ์เสนอตัดคะแนน (คำนวณจากเซิร์ฟเวอร์) → ป้าย + ปุ่มส่งเสนอให้แอดมิน KJST Shield อนุมัติ */
+  proposeRow(s, i){
+    const list = (CD.propose || {})[CD.sid(s.id)] || [];
+    return list.map(p => '<div class="prop"><div><b>⚠ ถึงเกณฑ์เสนอตัดคะแนน (' + esc(p.kind) + ')</b><small>' + esc(p.evidence) + '</small></div>' +
+      (S.canEdit ? '<button type="button" class="btn" data-prop="' + i + '" data-kind="' + esc(p.kind) + '">ส่งเสนอตัดคะแนน</button>' : '') + '</div>').join('');
+  },
+  async sendPropose(i, kind){
+    const s = S.students[i], p = ((CD.propose || {})[CD.sid(s.id)] || []).find(x => x.kind === kind);
+    if (!p) return;
+    if (!confirm('ส่งเสนอตัดคะแนน ' + s.name + ' (' + kind + ')\n' + p.evidence + '\n\nแอดมินจะตรวจสอบและอนุมัติก่อนตัดคะแนนจริงในระบบ KJST Shield')) return;
+    try{
+      const r = await api('proposeDeduct', { sheetName: S.cls, dateKey: S.date, sid: s.id, kind: kind });
+      CD.propose = r.propose || {};
+      S.students.forEach((x, k) => { if ($('r' + k)) $('r' + k).outerHTML = rowHtml(x, k); });
+      toast('ส่งเสนอตัดคะแนนแล้ว — รอแอดมินอนุมัติ');
+    }catch(e){
+      if (e.code === 'AUTH') return AUTH.expired(errMsg(e));
+      toast(errMsg(e), true);
+    }
+  },
+  async refreshPropose(){
+    try{
+      const cls = S.cls, d = S.date, p = await api('proposals', { sheetName: cls, dateKey: d });
+      if (cls !== S.cls || d !== S.date) return;
+      CD.propose = p || {};
+      S.students.forEach((x, k) => { if ($('r' + k)) $('r' + k).outerHTML = rowHtml(x, k); });
+    }catch(e){}
   },
   refreshRow(i){ $('r' + i).outerHTML = rowHtml(S.students[i], i); CD.renderBar(); },
   setHair(i, res){
