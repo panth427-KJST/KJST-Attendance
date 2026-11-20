@@ -120,6 +120,8 @@
   .dp label.on{border-color:#DC2626;background:#FDE8E8;color:#7F1D1D}
   .dp input[type=checkbox]{width:18px;height:18px;accent-color:#DC2626}
   .dp textarea{font:inherit;font-size:14px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);color:var(--ink);min-height:44px}
+  .dp .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .dp .dgrid label{padding:9px 10px;font-size:14.5px;min-width:0}
   .dp .row3{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:8px}
   .dp .row3 .btn{padding:11px 6px}
   /* แอดมิน */
@@ -313,7 +315,7 @@
 <div class="as dp" id="dp" role="dialog" aria-modal="true" aria-labelledby="dpTitle">
   <div class="panel">
     <h3 id="dpTitle">ผิดระเบียบ</h3>
-    <div id="dpItems" style="display:flex;flex-direction:column;gap:8px"></div>
+    <div id="dpItems" class="dgrid"></div>
     <textarea id="dpNote" placeholder="หมายเหตุ (ไม่บังคับ)" maxlength="200"></textarea>
     <div class="row3">
       <button class="btn ghost" id="dpClear" type="button">ล้างทั้งหมด</button>
@@ -373,7 +375,7 @@ const CONFIG = {
   CLIENT_ID: '387152732131-gfk59erhm4uivcmi026n6qdnnr48uufd.apps.googleusercontent.com',
   API_URL:   'https://script.google.com/macros/s/AKfycbzAjHJ9dCA54T-S9XGVawR-VItftDt8OSifm4jlB_KwZx_skEL3d-1BkhKFYyVcVsysKA/exec'
 };
-const PAGE_VERSION = '3.0.3 (19 พ.ย. 69)';
+const PAGE_VERSION = '3.0.4 (20 พ.ย. 69)';
 const PEND_HIDE_KEY = 'kjst_att_pend_hide';
 const SCHOOL_DOMAIN = 'kjst.ac.th';
 const LAST_EMAIL_KEY = 'kjst_att_last_email';
