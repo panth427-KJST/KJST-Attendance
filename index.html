@@ -35,6 +35,11 @@
   .acct{font:inherit;font-size:12px;color:inherit;background:rgba(255,255,255,.16);border:0;border-radius:999px;
     padding:4px 10px;max-width:62%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
   .acct.bad{background:#ffd77a;color:#4a3500;font-weight:700}
+  .tr{display:flex;align-items:center;gap:6px;min-width:0;max-width:72%}
+  .tr .acct{max-width:none;min-width:0}
+  .langbtn{font:inherit;font-size:12px;font-weight:700;color:inherit;background:rgba(255,255,255,.16);border:0;border-radius:999px;
+    padding:4px 10px;cursor:pointer;flex:none}
+  .lcard .langbtn{position:absolute;top:12px;right:12px;background:var(--bg);color:var(--ink);border:1px solid var(--line,#ddd)}
   .as{position:fixed;inset:0;z-index:15;background:rgba(10,20,30,.55);display:none;align-items:flex-end;justify-content:center}
   .as.show{display:flex}
   .as .panel{background:var(--card);color:var(--ink);width:100%;max-width:520px;border-radius:18px 18px 0 0;
@@ -178,7 +183,7 @@
   /* ---------- หน้าลงชื่อเข้าใช้ ---------- */
   #login{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px 16px;
     background:linear-gradient(160deg,var(--brand) 0 38%,var(--bg) 38%)}
-  .lcard{background:var(--card);width:100%;max-width:380px;border-radius:20px;padding:28px 22px 20px;text-align:center;
+  .lcard{position:relative;background:var(--card);width:100%;max-width:380px;border-radius:20px;padding:28px 22px 20px;text-align:center;
     box-shadow:0 12px 40px rgba(0,0,0,.18)}
   .logo{width:64px;height:64px;border-radius:18px;background:var(--brand);color:var(--brand-ink);margin:0 auto 12px;
     display:flex;align-items:center;justify-content:center;font-size:32px}
@@ -260,13 +265,14 @@
 <!-- หน้าลงชื่อเข้าใช้ -->
 <section id="login">
   <div class="lcard">
+    <button class="langbtn" type="button">EN</button>
     <div class="logo" aria-hidden="true">✓</div>
-    <h2>เช็กชื่อมาเรียน</h2>
-    <div class="school">KJST e-Attendance · โรงเรียนกาญจนาภิเษกวิทยาลัย สุราษฎร์ธานี</div>
-    <p class="how" id="lhow">ลงชื่อเข้าใช้ด้วยบัญชี Google ที่ได้รับสิทธิ์บันทึกการมาเรียน<br>เลือกครั้งเดียว ครั้งต่อไประบบจะเข้าให้อัตโนมัติ</p>
+    <h2 data-t>เช็กชื่อมาเรียน</h2>
+    <div class="school" data-t>KJST e-Attendance · โรงเรียนกาญจนาภิเษกวิทยาลัย สุราษฎร์ธานี</div>
+    <p class="how" id="lhow" data-t>ลงชื่อเข้าใช้ด้วยบัญชี Google ที่ได้รับสิทธิ์บันทึกการมาเรียน<br>เลือกครั้งเดียว ครั้งต่อไประบบจะเข้าให้อัตโนมัติ</p>
     <div class="lwait" id="lwait"><i></i><span id="lwaitText">กำลังเข้าสู่ระบบ…</span></div>
     <div id="gbtn"></div>
-    <button class="btn ghost lretry" id="lretry" type="button">ลองใหม่</button>
+    <button class="btn ghost lretry" id="lretry" type="button" data-t>ลองใหม่</button>
     <div class="lmsg" id="lmsg"></div>
     <div class="lfoot" id="lver"></div>
   </div>
@@ -274,10 +280,10 @@
 
 <div id="app" hidden>
 <header>
-  <div class="top"><h1>เช็กชื่อมาเรียน</h1><button class="acct" id="email" type="button">กำลังลงชื่อเข้าใช้…</button></div>
+  <div class="top"><h1 data-t>เช็กชื่อมาเรียน</h1><div class="tr"><button class="langbtn" type="button">EN</button><button class="acct" id="email" type="button">กำลังลงชื่อเข้าใช้…</button></div></div>
   <div class="pickers">
-    <select id="cls" aria-label="ห้องเรียน" disabled></select>
-    <select id="date" aria-label="วันที่" disabled></select>
+    <select id="cls" data-ta aria-label="ห้องเรียน" disabled></select>
+    <select id="date" data-ta aria-label="วันที่" disabled></select>
   </div>
   <div class="pend" id="pend" hidden></div>
   <div class="hairbar" id="hairBar" hidden></div>
@@ -286,8 +292,8 @@
 <main>
   <div id="banner"></div>
   <div class="tools" id="tools" hidden>
-    <button class="btn ghost" id="allIn">✓ ทุกคนมาเรียน</button>
-    <button class="btn ghost" id="lineSum" hidden>📋 สรุปส่ง LINE</button>
+    <button class="btn ghost" id="allIn" data-t>✓ ทุกคนมาเรียน</button>
+    <button class="btn ghost" id="lineSum" hidden data-t>📋 สรุปส่ง LINE</button>
   </div>
   <ol id="list"><li class="loading">กำลังโหลด…</li></ol>
 </main>
@@ -308,11 +314,11 @@
     <h3 id="asTitle">บัญชีที่ใช้งานอยู่</h3>
     <div class="cur" id="asCur"></div>
     <div class="stack">
-      <button class="btn ghost" id="asAdmin" type="button" hidden>✂ จัดการรอบตรวจทรงผม (แอดมิน)</button>
-      <button class="btn primary" id="asSwitch" type="button">เปลี่ยนบัญชี / ออกจากระบบ</button>
+      <button class="btn ghost" id="asAdmin" type="button" hidden data-t>✂ จัดการรอบตรวจทรงผม (แอดมิน)</button>
+      <button class="btn primary" id="asSwitch" type="button" data-t>เปลี่ยนบัญชี / ออกจากระบบ</button>
       <button class="btn ghost" id="asClose" type="button">ใช้บัญชีนี้ต่อ</button>
     </div>
-    <p class="tip">กด <b>เปลี่ยนบัญชี</b> แล้วเลือกบัญชี Google ที่ได้รับสิทธิ์จากรายการ ระบบจะจำบัญชีใหม่ไว้ในเครื่องนี้</p>
+    <p class="tip" data-t>กด <b>เปลี่ยนบัญชี</b> แล้วเลือกบัญชี Google ที่ได้รับสิทธิ์จากรายการ ระบบจะจำบัญชีใหม่ไว้ในเครื่องนี้</p>
   </div>
 </div>
 
@@ -321,18 +327,18 @@
   <div class="panel">
     <h3 id="dpTitle">ผิดระเบียบ</h3>
     <div id="dpItems" class="dgrid"></div>
-    <textarea id="dpNote" placeholder="หมายเหตุ (ไม่บังคับ)" maxlength="200"></textarea>
+    <textarea id="dpNote" data-tp placeholder="หมายเหตุ (ไม่บังคับ)" maxlength="200"></textarea>
     <div class="row3">
-      <button class="btn ghost" id="dpClear" type="button">ล้างทั้งหมด</button>
-      <button class="btn ghost" id="dpCancel" type="button">ยกเลิก</button>
-      <button class="btn primary" id="dpOk" type="button" style="background:var(--brand);color:var(--brand-ink)">ตกลง</button>
+      <button class="btn ghost" id="dpClear" type="button" data-t>ล้างทั้งหมด</button>
+      <button class="btn ghost" id="dpCancel" type="button" data-t>ยกเลิก</button>
+      <button class="btn primary" id="dpOk" type="button" style="background:var(--brand);color:var(--brand-ink)" data-t>ตกลง</button>
     </div>
   </div>
 </div>
 
 <!-- แอดมิน: รอบตรวจทรงผม -->
 <div class="adm" id="adm" role="dialog" aria-modal="true">
-  <div class="ah"><b id="admTitle">รอบตรวจทรงผม</b><button class="btn" id="admClose" type="button" style="background:rgba(255,255,255,.18);color:inherit">ปิด</button></div>
+  <div class="ah"><b id="admTitle">รอบตรวจทรงผม</b><button class="btn" id="admClose" type="button" style="background:rgba(255,255,255,.18);color:inherit" data-t>ปิด</button></div>
   <div class="ab" id="admBody"></div>
 </div>
 
@@ -353,14 +359,14 @@
     </div>
 
     <div class="working">
-      <h2 id="ovTitle">กำลังบันทึกข้อมูล…</h2>
+      <h2 id="ovTitle" data-t>กำลังบันทึกข้อมูล…</h2>
       <p class="sub" id="ovSub"></p>
       <ol class="steps">
-        <li id="st1"><span class="dot"></span>ส่งข้อมูลจากมือถือ</li>
-        <li id="st2"><span class="dot"></span>เขียนลงไฟล์ (เวลาเรียน · แต่งกาย · ทรงผม)</li>
-        <li id="st3"><span class="dot"></span>ตรวจสอบว่าบันทึกครบ</li>
+        <li id="st1"><span class="dot"></span><span data-t>ส่งข้อมูลจากมือถือ</span></li>
+        <li id="st2"><span class="dot"></span><span data-t>เขียนลงไฟล์ (เวลาเรียน · แต่งกาย · ทรงผม)</span></li>
+        <li id="st3"><span class="dot"></span><span data-t>ตรวจสอบว่าบันทึกครบ</span></li>
       </ol>
-      <div class="note">⚠ กรุณารอจนขึ้นว่า “บันทึกสำเร็จ”<br>อย่าปิดหน้านี้หรือเปลี่ยนห้อง</div>
+      <div class="note" data-t>⚠ กรุณารอจนขึ้นว่า “บันทึกสำเร็จ”<br>อย่าปิดหน้านี้หรือเปลี่ยนห้อง</div>
       <div class="elapsed" id="elapsed"></div>
     </div>
 
@@ -380,7 +386,7 @@ const CONFIG = {
   CLIENT_ID: '387152732131-gfk59erhm4uivcmi026n6qdnnr48uufd.apps.googleusercontent.com',
   API_URL:   'https://script.google.com/macros/s/AKfycbzAjHJ9dCA54T-S9XGVawR-VItftDt8OSifm4jlB_KwZx_skEL3d-1BkhKFYyVcVsysKA/exec'
 };
-const PAGE_VERSION = '3.0.4 (20 พ.ย. 69)';
+const PAGE_VERSION = '3.1.0 (23 พ.ย. 69)';
 const PEND_HIDE_KEY = 'kjst_att_pend_hide';
 const SCHOOL_DOMAIN = 'kjst.ac.th';
 const LAST_EMAIL_KEY = 'kjst_att_last_email';
@@ -399,11 +405,11 @@ async function api(action, body){
       body: JSON.stringify(Object.assign({ action: action, session: S.session }, body || {}))
     });
   }catch(e){
-    const err = new Error('เชื่อมต่อระบบไม่ได้ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองใหม่'); err.code = 'NET'; throw err;
+    const err = new Error(T('เชื่อมต่อระบบไม่ได้ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองใหม่')); err.code = 'NET'; throw err;
   }
   let j;
   try{ j = await res.json(); }catch(e){
-    const err = new Error('ระบบตอบกลับไม่ถูกต้อง (' + res.status + ')'); err.code = 'NET'; throw err;
+    const err = new Error(T('ระบบตอบกลับไม่ถูกต้อง ({s})', { s: res.status })); err.code = 'NET'; throw err;
   }
   if (!j.ok){ const err = new Error(j.error); err.code = j.code; throw err; }
   return j.data;
@@ -418,11 +424,271 @@ function toast(msg, err){
   const t = $('toast'); t.textContent = msg; t.className = 'toast show' + (err ? ' err' : '');
   clearTimeout(toast.h); toast.h = setTimeout(() => t.className = 'toast', 2600);
 }
-function errMsg(e){ return (e && e.message) ? e.message : String(e); }
+function errMsg(e){ return trServer((e && e.message) ? e.message : String(e)); }
+/* ---------- ภาษา (ไทย / English) ---------- */
+const LANG_KEY = 'kjst_att_lang';
+let LANG = (() => {
+  const s = ls.get(LANG_KEY);
+  if (s === 'th' || s === 'en') return s;
+  return /^th/i.test(navigator.language || 'th') ? 'th' : 'en';   // มือถือตั้งภาษาอื่นที่ไม่ใช่ไทย → English
+})();
+const EN = {
+  // หน้าลงชื่อเข้าใช้
+  'เช็กชื่อมาเรียน': 'Daily Attendance',
+  'KJST e-Attendance · โรงเรียนกาญจนาภิเษกวิทยาลัย สุราษฎร์ธานี': 'KJST e-Attendance · Kanchanapisek Witthayalai Surat Thani School',
+  'ลงชื่อเข้าใช้ด้วยบัญชี Google ที่ได้รับสิทธิ์บันทึกการมาเรียน<br>เลือกครั้งเดียว ครั้งต่อไประบบจะเข้าให้อัตโนมัติ':
+    'Sign in with the school Google account that can record attendance.<br>You only choose once — next time you are signed in automatically.',
+  'กำลังเข้าสู่ระบบ…': 'Signing in…',
+  'กำลังตรวจสอบบัญชี…': 'Checking your account…',
+  'ลองใหม่': 'Try again',
+  'เวอร์ชัน {v}': 'Version {v}',
+  'กำลังลงชื่อเข้าใช้…': 'Signing in…',
+  'ผู้ดูแลระบบยังตั้งค่า CLIENT_ID หรือ API_URL ใน index.html ไม่ถูกต้อง': 'The administrator has not set CLIENT_ID or API_URL correctly in index.html.',
+  'กรุณาลงชื่อเข้าใช้ใหม่': 'Please sign in again.',
+  'ออกจากระบบแล้ว กดปุ่มด้านบนแล้วเลือกบัญชีที่ต้องการ': 'Signed out. Tap the button above and choose an account.',
+  // หัวหน้า / ปุ่มหลัก
+  'ห้องเรียน': 'Class', 'วันที่': 'Date',
+  '✓ ทุกคนมาเรียน': '✓ Mark all present',
+  '📋 สรุปส่ง LINE': '📋 LINE summary',
+  'กำลังโหลด…': 'Loading…',
+  'บันทึก': 'Save', 'บันทึกแล้ว ✓': 'Saved ✓',
+  '🔒 ไม่มีสิทธิ์บันทึกห้องนี้': '🔒 You cannot save this class',
+  'KJST e-Attendance เวอร์ชัน {v}': 'KJST e-Attendance version {v}',
+  ' · เซิร์ฟเวอร์ {v}': ' · server {v}',
+  'ห้องที่ฉันบันทึกได้': 'My classes',
+  '{g} (ดูอย่างเดียว)': '{g} (view only)',
+  'ยังไม่ถึงวันเปิดภาคเรียน': 'The semester has not started yet.',
+  ' (วันนี้)': ' (today)',
+  ' · ไม่ครบ': ' · incomplete',
+  'กำลังโหลดรายชื่อ {c}…': 'Loading {c}…',
+  'ไม่พบรายชื่อนักเรียนในห้องนี้': 'No students found in this class.',
+  // แบนเนอร์
+  '🔒 ห้อง {c} — ดูได้อย่างเดียว': '🔒 {c} — view only',
+  'บัญชีนี้ไม่มีสิทธิ์บันทึกการมาเรียนของห้องนี้ ตามสิทธิ์ที่กำหนดไว้ในไฟล์ E-Attendance ': 'This account cannot record attendance for this class (permissions are set in the E-Attendance file). ',
+  'ห้องที่คุณบันทึกได้: ': 'Your classes: ',
+  'หากคุณเป็นครูที่ปรึกษาห้องนี้ กรุณาติดต่อกลุ่มบริหารงานวิชาการเพื่อเพิ่มสิทธิ์': 'If you are an advisor of this class, please contact the Academic Affairs office for access.',
+  'ห้องนี้ยังไม่มีการบันทึกของวันที่เลือก': 'Nothing has been recorded for this class on this date.',
+  'วันนี้ไม่ใช่วันเรียน — แสดงวันเรียนล่าสุด': 'Today is not a school day — showing the latest school day.',
+  'ยังไม่มีการบันทึกวันนี้ ระบบตั้งทุกคนเป็น <b>มา</b> ไว้ให้ แตะเปลี่ยนเฉพาะคนที่ไม่มา แล้วกด <b>บันทึก</b>':
+    'Not recorded yet. Everyone is set to <b>Present</b> — change only the students who are not, then tap <b>Save</b>.',
+  'บันทึกล่าสุดโดย {e} เวลา {t} น.': 'Last saved by {e} at {t}',
+  'มีข้อมูลการเช็กชื่อของวันนี้แล้ว': 'Attendance for this date has been recorded.',
+  // สถานะ
+  'มา': 'Present', 'ราชการ': 'Official', 'ลา': 'Leave', 'สาย': 'Late', 'ขาด': 'Absent',
+  'ทั้งหมด': 'Total', 'ยังไม่เช็ก': 'Not checked', 'ผิดระเบียบ': 'Uniform issue',
+  '🔒 ห้องนี้ดูได้อย่างเดียว': '🔒 This class is view only',
+  '{n} มีรายการผิดระเบียบ {k} รายการ\nเปลี่ยนเป็น "{s}" จะล้างรายการนี้ ต้องการเปลี่ยนหรือไม่?':
+    '{n} has {k} uniform issue(s).\nChanging to "{s}" will clear them. Continue?',
+  // LINE
+  '✓ คัดลอกแล้ว': '✓ Copied', '📋 คัดลอกข้อความ': '📋 Copy message',
+  'คัดลอกแล้ว นำไปวางในแชท LINE ได้เลย': 'Copied — paste it in the LINE chat.',
+  'กดค้างที่ข้อความแล้วเลือก "คัดลอก"': 'Press and hold the text, then choose "Copy".',
+  'ข้อความสรุปสำหรับ LINE': 'Summary message for LINE',
+  'กดคัดลอก แล้วไปวางในกลุ่มแชท LINE ของห้อง': 'This message is in Thai for parents. Copy it and paste it in the class LINE group.',
+  'ส่งทาง LINE': 'Send via LINE', 'ปิด': 'Close',
+  'สรุปการมาเรียน': 'Attendance summary',
+  // หน้าจอบันทึก
+  'กำลังบันทึกข้อมูล…': 'Saving…',
+  'ส่งข้อมูลจากมือถือ': 'Sending from your phone',
+  'เขียนลงไฟล์ (เวลาเรียน · แต่งกาย · ทรงผม)': 'Writing to the file (attendance · uniform · haircut)',
+  'ตรวจสอบว่าบันทึกครบ': 'Checking everything was saved',
+  '⚠ กรุณารอจนขึ้นว่า “บันทึกสำเร็จ”<br>อย่าปิดหน้านี้หรือเปลี่ยนห้อง': '⚠ Please wait until you see “Saved”.<br>Do not close this page or change class.',
+  'ห้อง {c} · {d}': '{c} · {d}',
+  'ใช้เวลาไปแล้ว {s} วินาที': '{s} seconds so far',
+  ' · ระบบยังทำงานอยู่ กรุณารอ': ' · still working, please wait',
+  'บันทึกสำเร็จ': 'Saved',
+  'ห้อง {c} · {d} · เวลา {t} น.': '{c} · {d} · at {t}',
+  'บันทึกไม่สำเร็จ': 'Could not save',
+  'ลองอีกครั้ง': 'Try again',
+  ' (ข้อมูลยังไม่ถูกบันทึก)': ' (nothing was saved)',
+  'ยังไม่ได้ตรวจทรงผม {n} คน (ไม่บังคับ)\nบันทึกตอนนี้ แล้วกลับมาตรวจเพิ่มภายในวันนี้ได้ ต้องการบันทึกหรือไม่?':
+    '{n} student(s) have no haircut result yet (optional).\nYou can save now and finish later today. Save now?',
+  'ยังมีนักเรียนที่ไม่ได้เช็ก {n} คน ต้องการบันทึกหรือไม่?': '{n} student(s) are not checked. Save anyway?',
+  'ยังไม่ได้บันทึกการเปลี่ยนแปลง ต้องการออกจากหน้านี้หรือไม่?': 'You have unsaved changes. Leave this page?',
+  'ยังไม่ได้บันทึกการเปลี่ยนแปลง ต้องการออกจากระบบหรือไม่?': 'You have unsaved changes. Sign out anyway?',
+  'เชื่อมต่อระบบไม่ได้ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองใหม่': 'Cannot reach the server. Check your internet connection and try again.',
+  'ระบบตอบกลับไม่ถูกต้อง ({s})': 'Unexpected server response ({s})',
+  // แต่งกาย / ทรงผม
+  '⚠ {n} รายการ': '⚠ {n} issue(s)',
+  'ทรงผม': 'Haircut', 'ผ่าน': 'Pass', 'ไม่ผ่าน': 'Fail',
+  '➖ ไม่อยู่': '➖ Not here', 'ผ่านแล้วในรอบนี้': 'already passed this round', 'ตรวจซ้ำวันถัดไป': 'check again next day',
+  '✅ ผ่าน': '✅ Pass', '❌ ไม่ผ่าน': '❌ Fail', '⚪ ยังไม่ได้ตรวจ': '⚪ Not checked',
+  'คัดลอกจากวันก่อน': 'copied from earlier day',
+  'ไม่อยู่วันก่อน': 'absent on earlier day', 'เช็กชื่อก่อน': 'take attendance first',
+  'หมายเหตุ (บังคับ) เช่น ยาวเกินกำหนด ทำสี ไถข้าง': 'Note (required), e.g. too long, dyed, shaved sides',
+  '⚠ ถึงเกณฑ์เสนอตัดคะแนน ({k})': '⚠ Meets the point-deduction rule ({k})',
+  'ส่งเสนอตัดคะแนน': 'Propose deduction',
+  'ส่งเสนอตัดคะแนน {n} ({k})\n{e}\n\nแอดมินจะตรวจสอบและอนุมัติก่อนตัดคะแนนจริงในระบบ KJST Shield':
+    'Propose a point deduction for {n} ({k})\n{e}\n\nAn administrator will review and approve it in KJST Shield.',
+  'ส่งเสนอตัดคะแนนแล้ว — รอแอดมินอนุมัติ': 'Proposal sent — waiting for administrator approval.',
+  'บันทึกผลภายในวันนี้': 'record results today', 'แก้ไขโดยแอดมิน': 'editing as administrator',
+  'ปิดรอบแล้ว · ดูอย่างเดียว': 'round closed · view only', 'ดูอย่างเดียว · ครูบันทึกได้เฉพาะวันตรวจ': 'view only · teachers can record only on check days',
+  'วันนี้ตรวจทรงผม': 'Haircut check today', 'วันตรวจทรงผม': 'Haircut check day',
+  ' (วันที่ {d}/{n} ของรอบ {r})': ' (day {d}/{n} of {r})',
+  'ผ่าน {p}/{n} คน · ไม่ผ่าน {f} · ยังไม่ได้ตรวจ {x} · ไม่อยู่ {a} · {m}': 'Pass {p}/{n} · Fail {f} · Not checked {x} · Not here {a} · {m}',
+  'ทรงผม "ไม่ผ่าน" ต้องกรอกหมายเหตุ: {n}': 'A "Fail" haircut needs a note: {n}',
+  'ผิดระเบียบ <b>{n} คน</b>': 'Uniform issues <b>{n}</b>',
+  '✂ ทรงผมผ่าน <b>{p}/{n}</b>': '✂ Haircut pass <b>{p}/{n}</b>',
+  'ยังไม่มีรายการตรวจระเบียบจากระบบ กรุณาแจ้งผู้ดูแลระบบ': 'No uniform checklist from the server yet. Please tell the administrator.',
+  'ผิดระเบียบ · {n}': 'Uniform issue · {n}',
+  'หมายเหตุ (ไม่บังคับ)': 'Note (optional)',
+  'ล้างทั้งหมด': 'Clear all', 'ยกเลิก': 'Cancel', 'ตกลง': 'OK',
+  // แอดมิน
+  'รอบตรวจทรงผม': 'Haircut check rounds', '+ สร้างรอบใหม่': '+ New round', 'ยังไม่มีรอบตรวจ': 'No rounds yet',
+  'เปิด': 'Open', 'ปิดแล้ว': 'Closed', '{id} · {n} วัน: {d}': '{id} · {n} days: {d}',
+  'ดูสรุป': 'Summary', 'แก้ไขวัน': 'Edit days', 'ปิดรอบ': 'Close round', 'เปิดรอบอีกครั้ง': 'Reopen',
+  'ปิดรอบ {t} ?': 'Close {t}?', 'เปิดรอบ {t} ?': 'Reopen {t}?',
+  'สร้างรอบตรวจทรงผม': 'New haircut round', 'แก้ไข {t}': 'Edit {t}',
+  'รหัสรอบ': 'Round ID', 'ชื่อรอบ': 'Round name', 'วันตรวจ (แตะเลือก 3–5 วัน ไม่ต้องติดกัน)': 'Check days (tap 3–5 days, need not be consecutive)',
+  'สถานะ': 'Status', 'เปิด (ครูบันทึกได้ในวันตรวจ)': 'Open (teachers record on check days)', 'หมายเหตุ': 'Note',
+  'บันทึกรอบ': 'Save round', 'ย้อนกลับ': 'Back', 'กำลังบันทึก…': 'Saving…', 'บันทึกรอบแล้ว': 'Round saved',
+  'กำลังสรุป…': 'Building summary…', 'สรุป {t}': 'Summary · {t}',
+  ' · แตะชื่อห้องเพื่อดูรายชื่อที่ยังไม่ผ่าน': ' · tap a class to see who has not passed',
+  'ห้อง': 'Class', 'ยังไม่ตรวจ': 'Not checked', 'ไม่อยู่': 'Not here', 'ระดับ {g}': 'Grade {g}', 'ผ่านครบทุกคน': 'Everyone passed',
+  '✂ จัดการรอบตรวจทรงผม (แอดมิน)': '✂ Haircut rounds (admin)',
+  // แถบวันค้าง
+  '✓ บันทึกครบทุกวันแล้ว': '✓ All days recorded',
+  '⚠ ยังไม่ได้บันทึก {n} วัน': '⚠ {n} day(s) not recorded',
+  '+{n} วัน': '+{n} days',
+  '⚠ {r} ห้องยังค้างบันทึก (รวม {n} วัน)': '⚠ {r} classes have unrecorded days ({n} days)',
+  '{c} · {n} วัน': '{c} · {n} days',
+  'แสดง': 'Show', 'ซ่อน': 'Hide',
+  // บัญชี
+  'บัญชีที่ใช้งานอยู่': 'Current account', 'บัญชีนี้ไม่มีสิทธิ์บันทึก': 'This account cannot record',
+  'เปลี่ยนบัญชี / ออกจากระบบ': 'Switch account / Sign out', 'ใช้บัญชีนี้ต่อ': 'Keep this account', 'ดูข้อมูลอย่างเดียว': 'View only',
+  'กด <b>เปลี่ยนบัญชี</b> แล้วเลือกบัญชี Google ที่ได้รับสิทธิ์จากรายการ ระบบจะจำบัญชีใหม่ไว้ในเครื่องนี้':
+    'Tap <b>Switch account</b> and choose the Google account that has access. This device will remember it.',
+  'บัญชีนี้ยังไม่มีสิทธิ์บันทึกห้องใดเลย หากคุณเป็นครูที่ปรึกษา อาจเลือกบัญชีผิด กรุณาเปลี่ยนเป็นบัญชีที่ได้รับสิทธิ์':
+    'This account cannot record any class. If you are an advisor, you may have chosen the wrong account — please switch to the one with access.',
+  'บันทึกได้ {n} ห้อง: {c}': 'Can record {n} class(es): {c}'
+};
+
+/** แปลข้อความ: ใช้ข้อความภาษาไทยเป็นกุญแจ · {x} = ค่าที่แทนลงไป */
+function T(th, v){
+  let s = (LANG === 'en' && EN[th] != null) ? EN[th] : th;
+  if (v) s = s.replace(/\{(\w+)\}/g, (m, k) => v[k] != null ? v[k] : m);
+  return s;
+}
+/** ชื่อห้อง/ระดับสำหรับแสดงผล (ค่าข้อมูลยังเป็นภาษาไทย) */
+const dCls = c => LANG === 'en' ? String(c).replace(/^ม\./, 'M.') : String(c);
+const ITEM_EN = {
+  'เสื้อ': 'Shirt', 'กางเกง/กระโปรง': 'Trousers/Skirt', 'ถุงเท้า': 'Socks', 'รองเท้า': 'Shoes', 'หมวก': 'Hat',
+  'เข็มตราติดหน้าอก': 'School badge', 'เข็มขัด': 'Belt', 'เครื่องประดับ': 'Jewelry', 'แต่งหน้า': 'Make-up',
+  'เล็บ': 'Nails', 'เน็คไท/โบว์': 'Tie/Bow', 'ริบบิ้นผูกผม': 'Hair ribbon', 'ทรงผม': 'Haircut', 'แต่งกาย': 'Dress'
+};
+const dItem = t => LANG === 'en' && ITEM_EN[t] ? ITEM_EN[t] + ' · ' + t : t;
+const dKind = t => LANG === 'en' && ITEM_EN[t] ? ITEM_EN[t] : t;
+/** ชื่อรอบ เช่น "ตรวจทรงผม ครั้งที่ 2 ภาคเรียน 2/2569" */
+const MON_EN = { 'ม.ค.':'Jan', 'ก.พ.':'Feb', 'มี.ค.':'Mar', 'เม.ย.':'Apr', 'พ.ค.':'May', 'มิ.ย.':'Jun',
+  'ก.ค.':'Jul', 'ส.ค.':'Aug', 'ก.ย.':'Sep', 'ต.ค.':'Oct', 'พ.ย.':'Nov', 'ธ.ค.':'Dec' };
+const dRound = t => LANG === 'en'
+  ? String(t).replace(/^ตรวจทรงผม\s*/, 'Haircut ').replace(/ครั้งที่\s*(\d+)/, 'round $1').replace(/ภาคเรียน(ที่)?\s*/, '· semester ')
+      .replace(/(ม\.ค\.|ก\.พ\.|มี\.ค\.|เม\.ย\.|พ\.ค\.|มิ\.ย\.|ก\.ค\.|ส\.ค\.|ก\.ย\.|ต\.ค\.|พ\.ย\.|ธ\.ค\.)/g, m => MON_EN[m]).trim()
+  : String(t);
+
+/** หลักฐานเสนอตัดคะแนน: แปลส่วนที่ระบบสร้าง (เดือน · จำนวนครั้ง) ส่วนหมายเหตุของครูคงเดิม */
+const dEv = t => LANG === 'en'
+  ? dRound(String(t)).replace(/^ผิดระเบียบ (\d+) ครั้ง:/, 'Uniform issues $1 times:').replace(/ วันที่ (\d+)\/(\d+):/, ' day $1/$2:')
+  : String(t);
+
+/** ข้อความจากเซิร์ฟเวอร์ (ภาษาไทย) → English เมื่อเลือกภาษาอังกฤษ */
+const SERVER_EN = [
+  [/^คุณไม่มีสิทธิ์บันทึกการมาเรียนห้อง (\S+).*$/, (m, c) => 'You do not have permission to record attendance for ' + dCls(c) + '.'],
+  [/^รายชื่อนักเรียนในห้องนี้มีการเปลี่ยนแปลง.*$/, () => 'The class list has changed. Please reload the page.'],
+  [/^ไม่สามารถบันทึกล่วงหน้าได้$/, () => 'You cannot record future dates.'],
+  [/^ระบบกำลังบันทึกข้อมูล.*ลองใหม่อีกครั้ง$/, () => 'The system is busy saving other data. Please try again in a moment.'],
+  [/^บันทึกไม่ครบ (\d+) รายการ.*$/, (m, n) => n + ' entries were not saved. Please try again.'],
+  [/^การเข้าสู่ระบบหมดอายุ.*$/, () => 'Your sign-in has expired. Please sign in again.'],
+  [/^บัตรผ่านของเครื่องนี้ถูกยกเลิก.*$/, () => 'This device was signed out by the administrator. Please sign in again.'],
+  [/^กรุณาลงชื่อเข้าใช้(ใหม่)?$/, () => 'Please sign in.'],
+  [/^ยืนยันตัวตนกับ Google ไม่สำเร็จ.*$/, () => 'Google sign-in could not be verified. Please try again.'],
+  [/^การลงชื่อเข้าใช้หมดอายุ.*$/, () => 'The sign-in expired. Please try again.'],
+  [/^ข้อมูลการลงชื่อเข้าใช้ไม่ได้มาจากระบบนี้$/, () => 'This sign-in did not come from this app.'],
+  [/^บัญชี (\S+) ไม่มีสิทธิ์ใช้ระบบนี้.*$/, (m, e) => 'The account ' + e + ' cannot use this system. Use your @kjst.ac.th account or contact Academic Affairs.'],
+  [/^ทรงผม "ไม่ผ่าน" ต้องกรอกหมายเหตุ \(ลำดับที่ (\d+)\)$/, (m, n) => 'A "Fail" haircut needs a note (student no. ' + n + ').'],
+  [/^รายการตรวจระเบียบไม่ถูกต้อง: (.*)$/, (m, x) => 'Unknown uniform item: ' + x],
+  [/^เฉพาะแอดมินระบบเท่านั้น$/, () => 'Administrators only.'],
+  [/^วันตรวจทับกับรอบ (.+) ที่เปิดอยู่$/, (m, r) => 'These days overlap with open round ' + r + '.'],
+  [/^ลบวันที่ (.+) ไม่ได้ เพราะมีผลตรวจแล้ว$/, (m, d) => 'Cannot remove ' + d + ' — results were already recorded.'],
+  [/^กรุณาเลือกวันตรวจอย่างน้อย 1 วัน$/, () => 'Choose at least one check day.'],
+  [/^กรุณาใส่ชื่อรอบ$/, () => 'Enter a round name.'],
+  [/^รหัสรอบไม่ถูกต้อง.*$/, () => 'Invalid round ID (example: HC-2569-11).'],
+  [/^มีรอบ (\S+) อยู่แล้ว$/, (m, r) => 'Round ' + r + ' already exists.'],
+  [/^วันที่ (\S+) ไม่ใช่วันเรียนในไฟล์นี้$/, (m, d) => d + ' is not a school day in this file.'],
+  [/^ไม่พบวันที่ (\S+) ในชีต (\S+)$/, (m, d, c) => d + ' is not in the ' + dCls(c) + ' sheet.'],
+  [/^ไม่พบชีตห้อง (\S+)$/, (m, c) => 'Class sheet ' + dCls(c) + ' not found.'],
+  [/^คุณไม่มีสิทธิ์ของห้อง (\S+)$/, (m, c) => 'You do not have permission for ' + dCls(c) + '.'],
+  [/^ไม่สามารถเสนอวันที่ล่วงหน้าได้$/, () => 'You cannot propose for a future date.'],
+  [/^นักเรียนคนนี้ยังไม่ถึงเกณฑ์.*$/, () => 'This student does not meet the rule yet, or a proposal was already sent.'],
+  [/^ไม่พบรอบ (\S+)$/, (m, r) => 'Round ' + r + ' not found.'],
+  [/^ไม่พบข้อมูลการลงชื่อเข้าใช้$/, () => 'No sign-in information was received.'],
+  [/^บัญชีนี้ยังไม่ได้ยืนยันอีเมลกับ Google$/, () => 'This account has not verified its email with Google.'],
+  [/^ผู้ออกข้อมูลไม่ถูกต้อง$/, () => 'Invalid sign-in issuer.'],
+  [/^ไม่พบชีตห้องเรียนในไฟล์$/, () => 'No class sheets were found in the file.'],
+  [/^ข้อมูลไม่ครบ$/, () => 'Incomplete data.'],
+  [/^สถานะไม่ถูกต้อง: (.*)$/, (m, x) => 'Invalid status: ' + x],
+  [/^ผลตรวจทรงผมไม่ถูกต้อง$/, () => 'Invalid haircut result.'],
+  [/^ชื่อห้องไม่ถูกต้อง$/, () => 'Invalid class name.'],
+  [/^คำสั่งไม่ถูกต้อง$/, () => 'Invalid request.']
+];
+function trServer(msg){
+  if (LANG !== 'en' || !msg) return msg;
+  for (const [re, f] of SERVER_EN) if (re.test(msg)) return msg.replace(re, f);
+  return msg;
+}
+
+/** ข้อความในส่วน HTML ที่มี data-t / data-tp (placeholder) / data-ta (aria-label) */
+function applyStatic(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-t]').forEach(el => {
+    if (el.dataset.th == null) el.dataset.th = el.innerHTML.trim();
+    el.innerHTML = T(el.dataset.th);
+  });
+  document.querySelectorAll('[data-tp]').forEach(el => {
+    if (el.dataset.thp == null) el.dataset.thp = el.getAttribute('placeholder');
+    el.setAttribute('placeholder', T(el.dataset.thp));
+  });
+  document.querySelectorAll('[data-ta]').forEach(el => {
+    if (el.dataset.tha == null) el.dataset.tha = el.getAttribute('aria-label');
+    el.setAttribute('aria-label', T(el.dataset.tha));
+  });
+  document.querySelectorAll('.langbtn').forEach(b => {
+    b.textContent = LANG === 'en' ? 'ไทย' : 'EN';
+    b.setAttribute('aria-label', LANG === 'en' ? 'เปลี่ยนเป็นภาษาไทย' : 'Switch to English');
+  });
+}
+
+function setLang(l){
+  if (S.busy) return;
+  LANG = l; ls.set(LANG_KEY, l);
+  applyStatic();
+  if (!$('login').hidden){                         // หน้าลงชื่อเข้าใช้
+    $('lver').textContent = T('เวอร์ชัน {v}', { v: dVer(PAGE_VERSION) });
+    if (GIS.inited) GIS.render(false);
+    return;
+  }
+  if (!S.init) return;
+  renderClassOptions($('cls').value);
+  renderVersion();
+  if (S.init.dates.length) renderDates(S.date || $('date').value);
+  PEND.render();
+  if (S.students && S.students.length && S.cls === $('cls').value){
+    const dirty = S.dirty;
+    renderAll(S.recorded);
+    setDirty(dirty);
+  } else if (S.cls) {
+    renderBanner(S.recorded);
+  }
+}
+
+/** วันที่สำหรับแสดงผล (ไทย: พ. 23 พ.ย. · English: Mon 23 Nov) */
 function thaiDate(key, long){
   const [y,m,d] = key.split('-').map(Number);
-  const s = new Date(y, m-1, d).toLocaleDateString('th-TH', { weekday: long ? 'long' : 'short', day:'numeric', month:'short' });
-  return key === S.init.today ? s + ' (วันนี้)' : s;
+  const s = new Date(y, m-1, d).toLocaleDateString(LANG === 'en' ? 'en-GB' : 'th-TH', { weekday: long ? 'long' : 'short', day:'numeric', month:'short' });
+  return S.init && key === S.init.today ? s + T(' (วันนี้)') : s;
+}
+function monLabel(y, m){
+  return LANG === 'en' ? new Date(y, m - 1, 1).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) : TH_MON[m - 1] + ' ' + (y + 543);
 }
 const canEditCls = c => S.init.editable.includes(c);
 
@@ -433,26 +699,13 @@ function enterApp(){
   $('email').textContent = '👤 ' + I.email + ' ▾';
   $('email').classList.toggle('bad', !I.editable.length);
   if (!I.editable.length) ACCT.open(true);
-  $('ver').textContent = 'KJST e-Attendance เวอร์ชัน ' + PAGE_VERSION +
-    (I.version && I.version !== PAGE_VERSION ? ' · เซิร์ฟเวอร์ ' + I.version : '');
-
-  // ห้องที่บันทึกได้อยู่บนสุด ห้องอื่นจัดกลุ่มตามระดับชั้น พร้อมไอคอนล็อก
-  let html = '';
-  if (I.editable.length)
-    html += '<optgroup label="ห้องที่ฉันบันทึกได้">' + I.editable.map(c => '<option value="' + esc(c) + '">' + esc(c) + '</option>').join('') + '</optgroup>';
-  const groups = {};
-  I.classes.filter(c => !canEditCls(c)).forEach(c => (groups[c.split('/')[0]] ||= []).push(c));
-  html += Object.keys(groups).map(g =>
-    '<optgroup label="' + esc(g) + ' (ดูอย่างเดียว)">' +
-    groups[g].map(c => '<option value="' + esc(c) + '">🔒 ' + esc(c) + '</option>').join('') + '</optgroup>').join('');
-  $('cls').innerHTML = html;
-
+  renderVersion();
   const saved = ls.get(LS_KEY);
-  $('cls').value = (saved && I.classes.includes(saved)) ? saved : (I.editable[0] || I.classes[0]);
+  renderClassOptions((saved && I.classes.includes(saved)) ? saved : (I.editable[0] || I.classes[0]));
 
   if (!I.dates.length){
     $('date').innerHTML = '';
-    $('list').innerHTML = '<li class="empty">ยังไม่ถึงวันเปิดภาคเรียน</li>';
+    $('list').innerHTML = '<li class="empty">' + T('ยังไม่ถึงวันเปิดภาคเรียน') + '</li>';
     return;
   }
   // ลิงก์จากอีเมล: ?cls=ม.1/3&date=2026-11-10
@@ -470,6 +723,34 @@ function enterApp(){
   load();
 }
 
+/** เวอร์ชัน "3.1.0 (23 พ.ย. 69)" → English "3.1.0 (23 Nov 2026)" */
+function dVer(v){
+  if (LANG !== 'en') return v;
+  return String(v).replace(/\((\d+) (\S+) (\d+)\)/, (m, d, mo, y) => {
+    const k = TH_MON.indexOf(mo);
+    return k < 0 ? m : '(' + d + ' ' + new Date(2000, k, 1).toLocaleDateString('en-GB', { month: 'short' }) + ' ' + (2500 + +y - 543) + ')';
+  });
+}
+function renderVersion(){
+  const I = S.init;
+  $('ver').textContent = T('KJST e-Attendance เวอร์ชัน {v}', { v: dVer(PAGE_VERSION) }) +
+    (I.version && I.version !== PAGE_VERSION ? T(' · เซิร์ฟเวอร์ {v}', { v: dVer(I.version) }) : '');
+}
+/** ห้องที่บันทึกได้อยู่บนสุด ห้องอื่นจัดกลุ่มตามระดับชั้น พร้อมไอคอนล็อก */
+function renderClassOptions(sel){
+  const I = S.init;
+  let html = '';
+  if (I.editable.length)
+    html += '<optgroup label="' + esc(T('ห้องที่ฉันบันทึกได้')) + '">' + I.editable.map(c => '<option value="' + esc(c) + '">' + esc(dCls(c)) + '</option>').join('') + '</optgroup>';
+  const groups = {};
+  I.classes.filter(c => !canEditCls(c)).forEach(c => (groups[c.split('/')[0]] ||= []).push(c));
+  html += Object.keys(groups).map(g =>
+    '<optgroup label="' + esc(T('{g} (ดูอย่างเดียว)', { g: dCls(g) })) + '">' +
+    groups[g].map(c => '<option value="' + esc(c) + '">🔒 ' + esc(dCls(c)) + '</option>').join('') + '</optgroup>').join('');
+  $('cls').innerHTML = html;
+  if (sel) $('cls').value = sel;
+}
+
 /** ตัวเลือกวันที่ — วันที่ค้างของห้องที่เลือกมี ⚠ นำหน้า */
 function renderDates(keep){
   const sel = keep || $('date').value || S.init.dates[0];
@@ -477,7 +758,7 @@ function renderDates(keep){
   const bad = {}; if (p) p.days.forEach(d => bad[d.key] = d.st);
   $('date').innerHTML = S.init.dates.map(k =>
     '<option value="' + k + '">' + (bad[k] ? '⚠ ' : '') + esc(thaiDate(k)) +
-    (bad[k] === 'partial' ? ' · ไม่ครบ' : '') + '</option>').join('');
+    (bad[k] === 'partial' ? T(' · ไม่ครบ') : '') + '</option>').join('');
   $('date').value = S.init.dates.includes(sel) ? sel : S.init.dates[0];
 }
 
@@ -486,7 +767,7 @@ async function load(){
   S.cls = $('cls').value; S.date = $('date').value;
   PEND.render();
   ls.set(LS_KEY, S.cls);
-  $('list').innerHTML = '<li class="loading">กำลังโหลดรายชื่อ ' + esc(S.cls) + '…</li>';
+  $('list').innerHTML = '<li class="loading">' + esc(T('กำลังโหลดรายชื่อ {c}…', { c: dCls(S.cls) })) + '</li>';
   $('tools').hidden = true; $('hairBar').hidden = true; $('banner').innerHTML = ''; $('counts').innerHTML = '';
   $('save').disabled = true;
   try{
@@ -502,30 +783,30 @@ async function load(){
   }catch(e){
     if (e.code === 'AUTH') return AUTH.expired(errMsg(e));
     $('list').innerHTML = '<li class="empty">' + esc(errMsg(e)) +
-      '<br><button class="btn ghost" style="margin-top:10px" onclick="load()">ลองใหม่</button></li>';
+      '<br><button class="btn ghost" style="margin-top:10px" onclick="load()">' + T('ลองใหม่') + '</button></li>';
   }
 }
 
 function renderBanner(recorded){
   const I = S.init; let h = '';
   if (!S.canEdit){
-    h += '<div class="banner lock"><b>🔒 ห้อง ' + esc(S.cls) + ' — ดูได้อย่างเดียว</b>' +
-      'บัญชีนี้ไม่มีสิทธิ์บันทึกการมาเรียนของห้องนี้ ตามสิทธิ์ที่กำหนดไว้ในไฟล์ E-Attendance ' +
+    h += '<div class="banner lock"><b>' + esc(T('🔒 ห้อง {c} — ดูได้อย่างเดียว', { c: dCls(S.cls) })) + '</b>' +
+      T('บัญชีนี้ไม่มีสิทธิ์บันทึกการมาเรียนของห้องนี้ ตามสิทธิ์ที่กำหนดไว้ในไฟล์ E-Attendance ') +
       (I.editable.length
-        ? 'ห้องที่คุณบันทึกได้: <b style="display:inline">' + I.editable.map(esc).join(', ') + '</b>'
-        : 'หากคุณเป็นครูที่ปรึกษาห้องนี้ กรุณาติดต่อกลุ่มบริหารงานวิชาการเพื่อเพิ่มสิทธิ์') +
+        ? T('ห้องที่คุณบันทึกได้: ') + '<b style="display:inline">' + I.editable.map(c => esc(dCls(c))).join(', ') + '</b>'
+        : T('หากคุณเป็นครูที่ปรึกษาห้องนี้ กรุณาติดต่อกลุ่มบริหารงานวิชาการเพื่อเพิ่มสิทธิ์')) +
       '</div>';
-    if (!recorded) h += '<div class="banner warn">ห้องนี้ยังไม่มีการบันทึกของวันที่เลือก</div>';
+    if (!recorded) h += '<div class="banner warn">' + T('ห้องนี้ยังไม่มีการบันทึกของวันที่เลือก') + '</div>';
     $('banner').innerHTML = h; return;
   }
   if (S.date === I.dates[0] && !I.isSchoolDay)
-    h += '<div class="banner warn">วันนี้ไม่ใช่วันเรียน — แสดงวันเรียนล่าสุด</div>';
+    h += '<div class="banner warn">' + T('วันนี้ไม่ใช่วันเรียน — แสดงวันเรียนล่าสุด') + '</div>';
   if (!recorded)
-    h += '<div class="banner">ยังไม่มีการบันทึกวันนี้ ระบบตั้งทุกคนเป็น <b>มา</b> ไว้ให้ แตะเปลี่ยนเฉพาะคนที่ไม่มา แล้วกด <b>บันทึก</b></div>';
+    h += '<div class="banner">' + T('ยังไม่มีการบันทึกวันนี้ ระบบตั้งทุกคนเป็น <b>มา</b> ไว้ให้ แตะเปลี่ยนเฉพาะคนที่ไม่มา แล้วกด <b>บันทึก</b>') + '</div>';
   else if (S.last)
-    h += '<div class="banner done">บันทึกล่าสุดโดย ' + esc(S.last.email) + ' เวลา ' + esc(S.last.at.slice(11,16)) + ' น.</div>';
+    h += '<div class="banner done">' + T('บันทึกล่าสุดโดย {e} เวลา {t} น.', { e: esc(S.last.email), t: esc(S.last.at.slice(11,16)) }) + '</div>';
   else
-    h += '<div class="banner done">มีข้อมูลการเช็กชื่อของวันนี้แล้ว</div>';
+    h += '<div class="banner done">' + T('มีข้อมูลการเช็กชื่อของวันนี้แล้ว') + '</div>';
   $('banner').innerHTML = h;
 }
 
@@ -536,7 +817,7 @@ function rowHtml(s, i){
     CD.dressBtn(s, i) + '</div>' +
     '<div class="seg">' + SHORT.map((t, j) =>
       '<button data-i="' + i + '" data-k="' + j + '" class="' + (j === k ? 'on' : '') + '"' +
-      (S.canEdit ? '' : ' aria-disabled="true"') + '>' + t + '</button>').join('') +
+      (S.canEdit ? '' : ' aria-disabled="true"') + '>' + T(t) + '</button>').join('') +
     '</div>' + CD.hairRow(s, i) + CD.proposeRow(s, i) + '</li>';
 }
 
@@ -544,7 +825,7 @@ function renderAll(recorded){
   renderBanner(recorded);
   $('list').classList.toggle('ro', !S.canEdit);
   if (!S.students.length){
-    $('list').innerHTML = '<li class="empty">ไม่พบรายชื่อนักเรียนในห้องนี้</li>';
+    $('list').innerHTML = '<li class="empty">' + T('ไม่พบรายชื่อนักเรียนในห้องนี้') + '</li>';
     return;
   }
   $('tools').hidden = !(S.canEdit || S.recorded);
@@ -562,10 +843,10 @@ function countsOf(){
 }
 function renderCounts(){
   const { c, blank } = countsOf();
-  $('counts').innerHTML = '<span>ทั้งหมด<b>' + S.students.length + '</b></span>' +
-    SHORT.map((t, j) => c[j] ? '<span>' + t + '<b>' + c[j] + '</b></span>' : '').join('') +
-    (blank ? '<span style="color:var(--leave)">ยังไม่เช็ก<b>' + blank + '</b></span>' : '') +
-    (CD.dressCount() ? '<span style="color:#B91C1C">ผิดระเบียบ<b>' + CD.dressCount() + '</b></span>' : '');
+  $('counts').innerHTML = '<span>' + T('ทั้งหมด') + '<b>' + S.students.length + '</b></span>' +
+    SHORT.map((t, j) => c[j] ? '<span>' + T(t) + '<b>' + c[j] + '</b></span>' : '').join('') +
+    (blank ? '<span style="color:var(--leave)">' + T('ยังไม่เช็ก') + '<b>' + blank + '</b></span>' : '') +
+    (CD.dressCount() ? '<span style="color:#B91C1C">' + T('ผิดระเบียบ') + '<b>' + CD.dressCount() + '</b></span>' : '');
 }
 
 function setDirty(v){
@@ -574,9 +855,9 @@ function setDirty(v){
   const b = $('save');
   b.classList.toggle('locked', !S.canEdit);
   b.classList.toggle('dirty', v && S.canEdit);
-  if (!S.canEdit){ b.disabled = true; b.textContent = '🔒 ไม่มีสิทธิ์บันทึกห้องนี้'; return; }
+  if (!S.canEdit){ b.disabled = true; b.textContent = T('🔒 ไม่มีสิทธิ์บันทึกห้องนี้'); return; }
   b.disabled = !v || S.busy;
-  b.textContent = v ? 'บันทึก' : 'บันทึกแล้ว ✓';
+  b.textContent = v ? T('บันทึก') : T('บันทึกแล้ว ✓');
 }
 
 $('list').addEventListener('click', e => {
@@ -587,11 +868,11 @@ $('list').addEventListener('click', e => {
   const hb = e.target.closest('button[data-hair]');
   if (hb){ CD.setHair(+hb.dataset.hi, hb.dataset.hair); return; }
   const b = e.target.closest('button[data-i]'); if (!b) return;
-  if (!S.canEdit){ toast('🔒 ห้องนี้ดูได้อย่างเดียว', true); return; }
+  if (!S.canEdit){ toast(T('🔒 ห้องนี้ดูได้อย่างเดียว'), true); return; }
   const i = +b.dataset.i, k = +b.dataset.k, s = S.students[i];
   const next = S.init.statuses[k];
   if (!CD.isPresent(next) && s.dress && s.dress.items.length){
-    if (!confirm(s.name + ' มีรายการผิดระเบียบ ' + s.dress.items.length + ' รายการ\nเปลี่ยนเป็น "' + SHORT[k] + '" จะล้างรายการนี้ ต้องการเปลี่ยนหรือไม่?')) return;
+    if (!confirm(T('{n} มีรายการผิดระเบียบ {k} รายการ\nเปลี่ยนเป็น "{s}" จะล้างรายการนี้ ต้องการเปลี่ยนหรือไม่?', { n: s.name, k: s.dress.items.length, s: T(SHORT[k]) }))) return;
     s.dress = { items: [], note: '' };
   }
   s.status = next;
@@ -644,8 +925,8 @@ async function copyText(txt, box, btn){
   try{ await navigator.clipboard.writeText(txt); ok = true; }catch(e){
     try{ box.removeAttribute('readonly'); box.focus(); box.select(); ok = document.execCommand('copy'); box.setAttribute('readonly', ''); }catch(x){}
   }
-  if (ok){ btn.textContent = '✓ คัดลอกแล้ว'; toast('คัดลอกแล้ว นำไปวางในแชท LINE ได้เลย'); setTimeout(() => btn.textContent = '📋 คัดลอกข้อความ', 2500); }
-  else { box.focus(); box.select(); toast('กดค้างที่ข้อความแล้วเลือก "คัดลอก"', true); }
+  if (ok){ btn.textContent = T('✓ คัดลอกแล้ว'); toast(T('คัดลอกแล้ว นำไปวางในแชท LINE ได้เลย')); setTimeout(() => btn.textContent = T('📋 คัดลอกข้อความ'), 2500); }
+  else { box.focus(); box.select(); toast(T('กดค้างที่ข้อความแล้วเลือก "คัดลอก"'), true); }
 }
 
 /* ---------- หน้าจอกำลังบันทึก ---------- */
@@ -655,7 +936,7 @@ const OV = {
   open(){
     const ov = $('ov'); ov.className = 'ov show';
     $('bigIcon').textContent = '';
-    $('ovSub').textContent = 'ห้อง ' + S.cls + ' · ' + thaiDate(S.date, true);
+    $('ovSub').textContent = T('ห้อง {c} · {d}', { c: dCls(S.cls), d: thaiDate(S.date, true) });
     [1,2,3].forEach(n => OV.step(n));
     OV.step(1, 'act');
     OV.stepTimer = setTimeout(() => { OV.step(1, 'done'); OV.step(2, 'act'); }, 600);
@@ -663,7 +944,7 @@ const OV = {
     $('elapsed').textContent = '';
     OV.timer = setInterval(() => {
       const s = Math.floor((Date.now() - OV.t0) / 1000);
-      $('elapsed').textContent = s >= 2 ? 'ใช้เวลาไปแล้ว ' + s + ' วินาที' + (s >= 8 ? ' · ระบบยังทำงานอยู่ กรุณารอ' : '') : '';
+      $('elapsed').textContent = s >= 2 ? T('ใช้เวลาไปแล้ว {s} วินาที', { s: s }) + (s >= 8 ? T(' · ระบบยังทำงานอยู่ กรุณารอ') : '') : '';
     }, 500);
   },
   stop(){ clearTimeout(OV.stepTimer); clearInterval(OV.timer); },
@@ -672,10 +953,10 @@ const OV = {
     OV.step(1, 'done'); OV.step(2, 'done'); OV.step(3, 'done');
     const { c, blank } = countsOf();
     $('bigIcon').textContent = '✓';
-    $('resTitle').textContent = 'บันทึกสำเร็จ';
-    $('resSub').textContent = 'ห้อง ' + S.cls + ' · ' + thaiDate(S.date, true) + ' · เวลา ' + info.at.slice(11,16) + ' น.';
-    $('resSum').innerHTML = SHORT.map((t, j) => c[j] ? '<span>' + t + ' <b>' + c[j] + '</b></span>' : '').join('') +
-      (blank ? '<span>ยังไม่เช็ก <b>' + blank + '</b></span>' : '') + CD.successChips(info.conduct);
+    $('resTitle').textContent = T('บันทึกสำเร็จ');
+    $('resSub').textContent = T('ห้อง {c} · {d} · เวลา {t} น.', { c: dCls(S.cls), d: thaiDate(S.date, true), t: info.at.slice(11,16) });
+    $('resSum').innerHTML = SHORT.map((t, j) => c[j] ? '<span>' + T(t) + ' <b>' + c[j] + '</b></span>' : '').join('') +
+      (blank ? '<span>' + T('ยังไม่เช็ก') + ' <b>' + blank + '</b></span>' : '') + CD.successChips(info.conduct);
     S.recorded = true;
     OV.lineBox();
     $('ov').className = 'ov show ok';
@@ -683,19 +964,19 @@ const OV = {
   /** ข้อความสรุปสำหรับวางในแชท LINE + ปุ่มคัดลอก */
   lineBox(){
     const txt = lineText();
-    $('resSum').innerHTML += '<textarea class="ltext" id="ltext" readonly aria-label="ข้อความสรุปสำหรับ LINE"></textarea>' +
-      '<p class="lhint">กดคัดลอก แล้วไปวางในกลุ่มแชท LINE ของห้อง</p>';
+    $('resSum').innerHTML += '<textarea class="ltext" id="ltext" readonly lang="th" aria-label="' + T('ข้อความสรุปสำหรับ LINE') + '"></textarea>' +
+      '<p class="lhint">' + T('กดคัดลอก แล้วไปวางในกลุ่มแชท LINE ของห้อง') + '</p>';
     $('ltext').value = txt;
-    $('resActs').innerHTML = '<button class="btn primary" id="ovCopy">📋 คัดลอกข้อความ</button>' +
-      '<a class="btn line" id="ovLine" target="_blank" rel="noopener" href="https://line.me/R/share?text=' + encodeURIComponent(txt) + '">ส่งทาง LINE</a>' +
-      '<button class="btn ghost" id="ovOk">ปิด</button>';
+    $('resActs').innerHTML = '<button class="btn primary" id="ovCopy">' + T('📋 คัดลอกข้อความ') + '</button>' +
+      '<a class="btn line" id="ovLine" target="_blank" rel="noopener" href="https://line.me/R/share?text=' + encodeURIComponent(txt) + '">' + T('ส่งทาง LINE') + '</a>' +
+      '<button class="btn ghost" id="ovOk">' + T('ปิด') + '</button>';
     $('ovOk').onclick = OV.close;
     $('ovCopy').onclick = () => copyText(txt, $('ltext'), $('ovCopy'));
   },
   summary(){
     $('bigIcon').textContent = '';
-    $('resTitle').textContent = 'สรุปการมาเรียน';
-    $('resSub').textContent = 'ห้อง ' + S.cls + ' · ' + thaiDate(S.date, true);
+    $('resTitle').textContent = T('สรุปการมาเรียน');
+    $('resSub').textContent = T('ห้อง {c} · {d}', { c: dCls(S.cls), d: thaiDate(S.date, true) });
     $('resSum').innerHTML = '';
     OV.lineBox();
     $('ov').className = 'ov show ok sumonly';
@@ -704,12 +985,12 @@ const OV = {
     OV.stop();
     OV.step(2, 'fail');
     $('bigIcon').textContent = '!';
-    $('resTitle').textContent = 'บันทึกไม่สำเร็จ';
+    $('resTitle').textContent = T('บันทึกไม่สำเร็จ');
     $('resSub').textContent = msg;
     $('resSum').innerHTML = '';
     $('ov').classList.remove('sumonly');
-    $('resActs').innerHTML = (canRetry ? '<button class="btn primary" id="ovRetry">ลองอีกครั้ง</button>' : '') +
-      '<button class="btn ghost" id="ovClose">ปิด</button>';
+    $('resActs').innerHTML = (canRetry ? '<button class="btn primary" id="ovRetry">' + T('ลองอีกครั้ง') + '</button>' : '') +
+      '<button class="btn ghost" id="ovClose">' + T('ปิด') + '</button>';
     $('ov').className = 'ov show err';
     $('ovClose').onclick = OV.close;
     if (canRetry) $('ovRetry').onclick = () => { OV.close(); doSave(); };
@@ -733,11 +1014,11 @@ async function doSave(){
     CD.refreshPropose();
   }catch(e){
     S.busy = false; setDirty(true);
-    const msg = errMsg(e);
-    if (e.code === 'AUTH'){ OV.close(); S.dirty = false; return AUTH.expired(msg + ' (ข้อมูลยังไม่ถูกบันทึก)'); }
-    const noRetry = /ไม่มีสิทธิ์|เปลี่ยนแปลง|ล่วงหน้า/.test(msg);
+    const msg = errMsg(e), raw = (e && e.message) || '';     // raw = ข้อความไทยจากเซิร์ฟเวอร์ ใช้ตรวจชนิดข้อผิดพลาด
+    if (e.code === 'AUTH'){ OV.close(); S.dirty = false; return AUTH.expired(msg + T(' (ข้อมูลยังไม่ถูกบันทึก)')); }
+    const noRetry = /ไม่มีสิทธิ์|เปลี่ยนแปลง|ล่วงหน้า/.test(raw);
     OV.fail(msg, !noRetry);
-    if (/ไม่มีสิทธิ์/.test(msg)){ S.canEdit = false; S.init.editable = S.init.editable.filter(c => c !== S.cls); renderAll(true); setDirty(false); }
+    if (/ไม่มีสิทธิ์/.test(raw)){ S.canEdit = false; S.init.editable = S.init.editable.filter(c => c !== S.cls); renderAll(true); setDirty(false); }
   }
 }
 
@@ -745,15 +1026,15 @@ $('save').addEventListener('click', () => {
   if (S.busy) return;
   if (!CD.validate()) return;
   const hairTodo = CD.hairTodo();
-  if (hairTodo && !confirm('ยังไม่ได้ตรวจทรงผม ' + hairTodo + ' คน (ไม่บังคับ)\nบันทึกตอนนี้ แล้วกลับมาตรวจเพิ่มภายในวันนี้ได้ ต้องการบันทึกหรือไม่?')) return;
+  if (hairTodo && !confirm(T('ยังไม่ได้ตรวจทรงผม {n} คน (ไม่บังคับ)\nบันทึกตอนนี้ แล้วกลับมาตรวจเพิ่มภายในวันนี้ได้ ต้องการบันทึกหรือไม่?', { n: hairTodo }))) return;
   const blank = S.students.filter(s => !s.status).length;
-  if (blank && !confirm('ยังมีนักเรียนที่ไม่ได้เช็ก ' + blank + ' คน ต้องการบันทึกหรือไม่?')) return;
+  if (blank && !confirm(T('ยังมีนักเรียนที่ไม่ได้เช็ก {n} คน ต้องการบันทึกหรือไม่?', { n: blank }))) return;
   doSave();
 });
 
 function guardChange(sel, prev){
   if (S.busy){ sel.value = prev; return; }
-  if (S.dirty && S.canEdit && !confirm('ยังไม่ได้บันทึกการเปลี่ยนแปลง ต้องการออกจากหน้านี้หรือไม่?')){
+  if (S.dirty && S.canEdit && !confirm(T('ยังไม่ได้บันทึกการเปลี่ยนแปลง ต้องการออกจากหน้านี้หรือไม่?'))){
     sel.value = prev; return;
   }
   load();
@@ -803,53 +1084,53 @@ const CD = {
   dressBtn(s, i){
     if (!CD.on) return '';
     const n = s.dress ? s.dress.items.length : 0;
-    if (!S.canEdit) return n ? '<span class="dbtn on" title="' + esc(s.dress.items.join(', ')) + '">⚠ ' + n + ' รายการ</span>' : '';
+    if (!S.canEdit) return n ? '<span class="dbtn on" title="' + esc(s.dress.items.map(dKind).join(', ')) + '">' + T('⚠ {n} รายการ', { n: n }) + '</span>' : '';
     const dis = CD.isPresent(s.status) ? '' : ' disabled';
     return '<button type="button" class="dbtn' + (n ? ' on' : '') + '" data-dress="' + i + '"' + dis + '>' +
-      (n ? '⚠ ' + n + ' รายการ' : 'ผิดระเบียบ') + '</button>';
+      (n ? T('⚠ {n} รายการ', { n: n }) : T('ผิดระเบียบ')) + '</button>';
   },
   hairRow(s, i){
     if (!CD.hair || !s.hair) return '';
-    const lb = '<span class="lb">ทรงผม</span>';
+    const lb = '<span class="lb">' + T('ทรงผม') + '</span>';
     if (CD.isAbsent(s.status)){
       const ok = s.hb === 'pass';
-      return '<div class="hrow">' + lb + '<span class="hchip away">➖ ไม่อยู่</span><span class="hhint">' +
-        (ok ? 'ผ่านแล้วในรอบนี้' : 'ตรวจซ้ำวันถัดไป') + '</span></div>';
+      return '<div class="hrow">' + lb + '<span class="hchip away">' + T('➖ ไม่อยู่') + '</span><span class="hhint">' +
+        (ok ? T('ผ่านแล้วในรอบนี้') : T('ตรวจซ้ำวันถัดไป')) + '</span></div>';
     }
     if (!CD.hairEditable()){
       const e = s.hair.res ? (s.hair.res === HP ? 'pass' : 'fail') : CD.eff(s);
-      const txt = { pass: '✅ ผ่าน', fail: '❌ ไม่ผ่าน', away: '➖ ไม่อยู่', none: '⚪ ยังไม่ได้ตรวจ' }[e];
+      const txt = T({ pass: '✅ ผ่าน', fail: '❌ ไม่ผ่าน', away: '➖ ไม่อยู่', none: '⚪ ยังไม่ได้ตรวจ' }[e]);
       return '<div class="hrow">' + lb + '<span class="hchip ' + e + '">' + txt + '</span>' +
         (s.hair.res === HF && s.hair.note ? '<span class="hhint bad">' + esc(s.hair.note) + '</span>' : '') + '</div>';
     }
     const dis = s.status ? '' : ' disabled';
     let out = '<div class="hrow">' + lb +
-      '<button type="button" class="hb' + (s.hair.res === HP ? ' pass' : '') + '" data-hair="' + HP + '" data-hi="' + i + '"' + dis + '>ผ่าน</button>' +
-      '<button type="button" class="hb' + (s.hair.res === HF ? ' fail' : '') + '" data-hair="' + HF + '" data-hi="' + i + '"' + dis + '>ไม่ผ่าน</button>';
-    if (s.hair.res === HP && s.hair.copied) out += '<span class="htag">คัดลอกจากวันก่อน</span>';
+      '<button type="button" class="hb' + (s.hair.res === HP ? ' pass' : '') + '" data-hair="' + HP + '" data-hi="' + i + '"' + dis + '>' + T('ผ่าน') + '</button>' +
+      '<button type="button" class="hb' + (s.hair.res === HF ? ' fail' : '') + '" data-hair="' + HF + '" data-hi="' + i + '"' + dis + '>' + T('ไม่ผ่าน') + '</button>';
+    if (s.hair.res === HP && s.hair.copied) out += '<span class="htag">' + T('คัดลอกจากวันก่อน') + '</span>';
     else if (!s.hair.res && s.hb === 'fail' && s.lastFail) out += '<span class="hhint bad">❌ ' + esc(thaiDate(s.lastFail.date)) + (s.lastFail.note ? ': ' + esc(s.lastFail.note) : '') + '</span>';
-    else if (!s.hair.res && s.hb === 'away') out += '<span class="hhint">ไม่อยู่วันก่อน</span>';
-    else if (!s.status) out += '<span class="hhint">เช็กชื่อก่อน</span>';
+    else if (!s.hair.res && s.hb === 'away') out += '<span class="hhint">' + T('ไม่อยู่วันก่อน') + '</span>';
+    else if (!s.status) out += '<span class="hhint">' + T('เช็กชื่อก่อน') + '</span>';
     out += '</div>';
     if (s.hair.res === HF) out += '<textarea class="hnote' + (s.hair.note.trim() ? '' : ' err') + '" rows="1" maxlength="200" data-hnote="' + i +
-      '" placeholder="หมายเหตุ (บังคับ) เช่น ยาวเกินกำหนด ทำสี ไถข้าง">' + esc(s.hair.note) + '</textarea>';
+      '" placeholder="' + esc(T('หมายเหตุ (บังคับ) เช่น ยาวเกินกำหนด ทำสี ไถข้าง')) + '">' + esc(s.hair.note) + '</textarea>';
     return out;
   },
   /** ถึงเกณฑ์เสนอตัดคะแนน (คำนวณจากเซิร์ฟเวอร์) → ป้าย + ปุ่มส่งเสนอให้แอดมิน KJST Shield อนุมัติ */
   proposeRow(s, i){
     const list = (CD.propose || {})[CD.sid(s.id)] || [];
-    return list.map(p => '<div class="prop"><div><b>⚠ ถึงเกณฑ์เสนอตัดคะแนน (' + esc(p.kind) + ')</b><small>' + esc(p.evidence) + '</small></div>' +
-      (S.canEdit ? '<button type="button" class="btn" data-prop="' + i + '" data-kind="' + esc(p.kind) + '">ส่งเสนอตัดคะแนน</button>' : '') + '</div>').join('');
+    return list.map(p => '<div class="prop"><div><b>' + esc(T('⚠ ถึงเกณฑ์เสนอตัดคะแนน ({k})', { k: dKind(p.kind) })) + '</b><small>' + esc(dEv(p.evidence)) + '</small></div>' +
+      (S.canEdit ? '<button type="button" class="btn" data-prop="' + i + '" data-kind="' + esc(p.kind) + '">' + T('ส่งเสนอตัดคะแนน') + '</button>' : '') + '</div>').join('');
   },
   async sendPropose(i, kind){
     const s = S.students[i], p = ((CD.propose || {})[CD.sid(s.id)] || []).find(x => x.kind === kind);
     if (!p) return;
-    if (!confirm('ส่งเสนอตัดคะแนน ' + s.name + ' (' + kind + ')\n' + p.evidence + '\n\nแอดมินจะตรวจสอบและอนุมัติก่อนตัดคะแนนจริงในระบบ KJST Shield')) return;
+    if (!confirm(T('ส่งเสนอตัดคะแนน {n} ({k})\n{e}\n\nแอดมินจะตรวจสอบและอนุมัติก่อนตัดคะแนนจริงในระบบ KJST Shield', { n: s.name, k: dKind(kind), e: dEv(p.evidence) }))) return;
     try{
       const r = await api('proposeDeduct', { sheetName: S.cls, dateKey: S.date, sid: s.id, kind: kind });
       CD.propose = r.propose || {};
       S.students.forEach((x, k) => { if ($('r' + k)) $('r' + k).outerHTML = rowHtml(x, k); });
-      toast('ส่งเสนอตัดคะแนนแล้ว — รอแอดมินอนุมัติ');
+      toast(T('ส่งเสนอตัดคะแนนแล้ว — รอแอดมินอนุมัติ'));
     }catch(e){
       if (e.code === 'AUTH') return AUTH.expired(errMsg(e));
       toast(errMsg(e), true);
@@ -877,13 +1158,13 @@ const CD = {
     if (!H || !S.students.length){ box.hidden = true; return; }
     const k = { pass: 0, fail: 0, away: 0, none: 0 };
     S.students.forEach(s => k[CD.eff(s)]++);
-    const n = S.students.length, name = String(H.title || '').replace(/^ตรวจทรงผม\s*/, '');
-    const mode = CD.hairEditable() ? (H.isToday ? 'บันทึกผลภายในวันนี้' : 'แก้ไขโดยแอดมิน')
-      : (H.status === 'closed' ? 'ปิดรอบแล้ว · ดูอย่างเดียว' : 'ดูอย่างเดียว · ครูบันทึกได้เฉพาะวันตรวจ');
+    const n = S.students.length, name = dRound(H.title || '').replace(/^(ตรวจทรงผม|Haircut)\s*/, '');
+    const mode = T(CD.hairEditable() ? (H.isToday ? 'บันทึกผลภายในวันนี้' : 'แก้ไขโดยแอดมิน')
+      : (H.status === 'closed' ? 'ปิดรอบแล้ว · ดูอย่างเดียว' : 'ดูอย่างเดียว · ครูบันทึกได้เฉพาะวันตรวจ'));
     box.hidden = false;
-    box.innerHTML = '<b>✂ ' + (H.isToday ? 'วันนี้ตรวจทรงผม' : 'วันตรวจทรงผม') + ' (วันที่ ' + H.day + '/' + H.days + ' ของรอบ ' + esc(name) + ')</b>' +
+    box.innerHTML = '<b>✂ ' + T(H.isToday ? 'วันนี้ตรวจทรงผม' : 'วันตรวจทรงผม') + esc(T(' (วันที่ {d}/{n} ของรอบ {r})', { d: H.day, n: H.days, r: name })) + '</b>' +
       '<div class="pb"><i style="width:' + Math.round(k.pass * 100 / n) + '%"></i></div>' +
-      '<small>ผ่าน ' + k.pass + '/' + n + ' คน · ไม่ผ่าน ' + k.fail + ' · ยังไม่ได้ตรวจ ' + k.none + ' · ไม่อยู่ ' + k.away + ' · ' + mode + '</small>';
+      '<small>' + T('ผ่าน {p}/{n} คน · ไม่ผ่าน {f} · ยังไม่ได้ตรวจ {x} · ไม่อยู่ {a} · {m}', { p: k.pass, n: n, f: k.fail, x: k.none, a: k.away, m: mode }) + '</small>';
   },
   hairTodo(){
     if (!CD.hairEditable()) return 0;
@@ -893,7 +1174,7 @@ const CD = {
     if (!CD.hairEditable()) return true;
     const i = S.students.findIndex(s => CD.isPresent(s.status) && s.hair && s.hair.res === HF && !s.hair.note.trim());
     if (i < 0) return true;
-    toast('ทรงผม "ไม่ผ่าน" ต้องกรอกหมายเหตุ: ' + S.students[i].name, true);
+    toast(T('ทรงผม "ไม่ผ่าน" ต้องกรอกหมายเหตุ: {n}', { n: S.students[i].name }), true);
     const t = document.querySelector('textarea[data-hnote="' + i + '"]');
     if (t){ t.scrollIntoView({ block: 'center' }); t.focus(); }
     return false;
@@ -907,20 +1188,20 @@ const CD = {
   afterSave(){ S.students.forEach(s => { if (s.hair) s.hair.saved = true; }); },
   successChips(c){
     if (!c) return '';
-    let h = c.dress ? '<span>ผิดระเบียบ <b>' + c.dress + ' คน</b></span>' : '';
-    if (c.hair) h += '<span>✂ ทรงผมผ่าน <b>' + c.hair.counts.pass + '/' + c.hair.n + '</b></span>';
+    let h = c.dress ? '<span>' + T('ผิดระเบียบ <b>{n} คน</b>', { n: c.dress }) + '</span>' : '';
+    if (c.hair) h += '<span>' + T('✂ ทรงผมผ่าน <b>{p}/{n}</b>', { p: c.hair.counts.pass, n: c.hair.n }) + '</span>';
     return h;
   },
   /* แผงเลือกรายการผิดระเบียบ */
   openPicker(i){
     if (!S.canEdit || S.busy) return;
     const s = S.students[i]; CD.pick = i;
-    if (!CD.items.length){ toast('ยังไม่มีรายการตรวจระเบียบจากระบบ กรุณาแจ้งผู้ดูแลระบบ', true); return; }
-    $('dpTitle').textContent = 'ผิดระเบียบ · ' + s.name;
+    if (!CD.items.length){ toast(T('ยังไม่มีรายการตรวจระเบียบจากระบบ กรุณาแจ้งผู้ดูแลระบบ'), true); return; }
+    $('dpTitle').textContent = T('ผิดระเบียบ · {n}', { n: s.name });
     const all = CD.items.slice(); s.dress.items.forEach(x => { if (all.indexOf(x) < 0) all.push(x); });
     $('dpItems').innerHTML = all.map((t, k) =>
       '<label class="' + (s.dress.items.indexOf(t) >= 0 ? 'on' : '') + '"><input type="checkbox" value="' + esc(t) + '"' +
-      (s.dress.items.indexOf(t) >= 0 ? ' checked' : '') + '>' + esc(t) + '</label>').join('');
+      (s.dress.items.indexOf(t) >= 0 ? ' checked' : '') + '>' + esc(dItem(t)) + '</label>').join('');
     $('dpNote').value = s.dress.note || '';
     $('dp').classList.add('show');
   },
@@ -942,22 +1223,22 @@ const ADM = {
   data: null, edit: null,
   async open(){
     ACCT.close();
-    $('adm').classList.add('show'); $('admTitle').textContent = 'รอบตรวจทรงผม';
-    $('admBody').innerHTML = '<p class="empty">กำลังโหลด…</p>';
+    $('adm').classList.add('show'); $('admTitle').textContent = T('รอบตรวจทรงผม');
+    $('admBody').innerHTML = '<p class="empty">' + T('กำลังโหลด…') + '</p>';
     try{ ADM.data = await api('rounds'); ADM.list(); }
     catch(e){ if (e.code === 'AUTH') return AUTH.expired(errMsg(e)); $('admBody').innerHTML = '<p class="empty">' + esc(errMsg(e)) + '</p>'; }
   },
   close(){ $('adm').classList.remove('show'); if (S.cls && !S.dirty) load(); },
   fmtDates(ds){ return ds.map(d => esc(thaiDate(d))).join(', '); },
   list(){
-    const D = ADM.data; $('admTitle').textContent = 'รอบตรวจทรงผม';
-    let h = '<button class="btn primary" id="admNew" style="background:var(--brand);color:var(--brand-ink);padding:12px">+ สร้างรอบใหม่</button>';
-    if (!D.rounds.length) h += '<p class="empty">ยังไม่มีรอบตรวจ</p>';
-    h += D.rounds.map((r, k) => '<div class="card"><h4>' + esc(r.title) + ' <span class="pill2 ' + r.status + '">' + (r.status === 'open' ? 'เปิด' : 'ปิดแล้ว') + '</span></h4>' +
-      '<div class="meta">' + esc(r.round_id) + ' · ' + r.dates.length + ' วัน: ' + ADM.fmtDates(r.dates) + '</div>' +
-      '<div class="acts2"><button class="btn primary" data-sum="' + k + '" style="background:var(--brand);color:var(--brand-ink)">ดูสรุป</button>' +
-      '<button class="btn ghost" data-edit="' + k + '">แก้ไขวัน</button>' +
-      '<button class="btn ghost" data-toggle="' + k + '">' + (r.status === 'open' ? 'ปิดรอบ' : 'เปิดรอบอีกครั้ง') + '</button></div></div>').join('');
+    const D = ADM.data; $('admTitle').textContent = T('รอบตรวจทรงผม');
+    let h = '<button class="btn primary" id="admNew" style="background:var(--brand);color:var(--brand-ink);padding:12px">' + T('+ สร้างรอบใหม่') + '</button>';
+    if (!D.rounds.length) h += '<p class="empty">' + T('ยังไม่มีรอบตรวจ') + '</p>';
+    h += D.rounds.map((r, k) => '<div class="card"><h4>' + esc(dRound(r.title)) + ' <span class="pill2 ' + r.status + '">' + T(r.status === 'open' ? 'เปิด' : 'ปิดแล้ว') + '</span></h4>' +
+      '<div class="meta">' + T('{id} · {n} วัน: {d}', { id: esc(r.round_id), n: r.dates.length, d: ADM.fmtDates(r.dates) }) + '</div>' +
+      '<div class="acts2"><button class="btn primary" data-sum="' + k + '" style="background:var(--brand);color:var(--brand-ink)">' + T('ดูสรุป') + '</button>' +
+      '<button class="btn ghost" data-edit="' + k + '">' + T('แก้ไขวัน') + '</button>' +
+      '<button class="btn ghost" data-toggle="' + k + '">' + T(r.status === 'open' ? 'ปิดรอบ' : 'เปิดรอบอีกครั้ง') + '</button></div></div>').join('');
     $('admBody').innerHTML = h;
     $('admNew').onclick = () => ADM.form(null);
     $('admBody').querySelectorAll('[data-sum]').forEach(b => b.onclick = () => ADM.summary(D.rounds[+b.dataset.sum].round_id));
@@ -965,7 +1246,7 @@ const ADM = {
     $('admBody').querySelectorAll('[data-toggle]').forEach(b => b.onclick = () => {
       const r = D.rounds[+b.dataset.toggle];
       const st = r.status === 'open' ? 'closed' : 'open';
-      if (!confirm((st === 'closed' ? 'ปิดรอบ ' : 'เปิดรอบ ') + r.title + ' ?')) return;
+      if (!confirm(T(st === 'closed' ? 'ปิดรอบ {t} ?' : 'เปิดรอบ {t} ?', { t: dRound(r.title) }))) return;
       ADM.save(Object.assign({}, r, { status: st, isNew: false }));
     });
   },
@@ -977,17 +1258,17 @@ const ADM = {
     const days = D.schoolDays.filter(d => d >= today || used[d]);
     const byMon = {}; days.forEach(d => { const k = d.slice(0, 7); (byMon[k] = byMon[k] || []).push(d); });
     const defId = 'HC-' + (ty + 543) + '-' + ('0' + tm).slice(-2), defTitle = 'ตรวจทรงผม ' + TH_MON[tm - 1] + ' ' + (ty + 543);
-    $('admTitle').textContent = isNew ? 'สร้างรอบตรวจทรงผม' : 'แก้ไข ' + r.title;
+    $('admTitle').textContent = isNew ? T('สร้างรอบตรวจทรงผม') : T('แก้ไข {t}', { t: dRound(r.title) });
     $('admBody').innerHTML = '<div class="card">' +
-      '<label class="fld">รหัสรอบ<input id="fId" value="' + esc(r ? r.round_id : defId) + '"' + (isNew ? '' : ' disabled') + '></label>' +
-      '<label class="fld">ชื่อรอบ<input id="fTitle" value="' + esc(r ? r.title : defTitle) + '"></label>' +
-      '<div class="fld">วันตรวจ (แตะเลือก 3–5 วัน ไม่ต้องติดกัน)</div>' +
+      '<label class="fld">' + T('รหัสรอบ') + '<input id="fId" value="' + esc(r ? r.round_id : defId) + '"' + (isNew ? '' : ' disabled') + '></label>' +
+      '<label class="fld">' + T('ชื่อรอบ') + '<input id="fTitle" lang="th" value="' + esc(r ? r.title : defTitle) + '"></label>' +
+      '<div class="fld">' + T('วันตรวจ (แตะเลือก 3–5 วัน ไม่ต้องติดกัน)') + '</div>' +
       Object.keys(byMon).map(k => { const [y, m] = k.split('-').map(Number);
-        return '<div class="mon">' + TH_MON[m - 1] + ' ' + (y + 543) + '</div><div class="dchips">' +
+        return '<div class="mon">' + esc(monLabel(y, m)) + '</div><div class="dchips">' +
           byMon[k].map(d => '<button type="button" class="dchip' + (used[d] ? ' on' : '') + '" data-d="' + d + '">' + esc(thaiDate(d)) + '</button>').join('') + '</div>'; }).join('') +
-      '<label class="fld">สถานะ<select id="fSt"><option value="open">เปิด (ครูบันทึกได้ในวันตรวจ)</option><option value="closed">ปิดรอบ</option></select></label>' +
-      '<label class="fld">หมายเหตุ<input id="fNote" value="' + esc(r ? r.note || '' : '') + '"></label>' +
-      '<div class="acts2"><button class="btn primary" id="fSave" style="background:var(--brand);color:var(--brand-ink)">บันทึกรอบ</button><button class="btn ghost" id="fBack">ย้อนกลับ</button></div></div>';
+      '<label class="fld">' + T('สถานะ') + '<select id="fSt"><option value="open">' + T('เปิด (ครูบันทึกได้ในวันตรวจ)') + '</option><option value="closed">' + (LANG === 'en' ? 'Closed (view only)' : 'ปิดรอบ') + '</option></select></label>' +
+      '<label class="fld">' + T('หมายเหตุ') + '<input id="fNote" value="' + esc(r ? r.note || '' : '') + '"></label>' +
+      '<div class="acts2"><button class="btn primary" id="fSave" style="background:var(--brand);color:var(--brand-ink)">' + T('บันทึกรอบ') + '</button><button class="btn ghost" id="fBack">' + T('ย้อนกลับ') + '</button></div></div>';
     $('fSt').value = r ? r.status : 'open';
     $('admBody').querySelectorAll('.dchip').forEach(b => b.onclick = () => {
       const d = b.dataset.d; ADM.edit.sel[d] = !ADM.edit.sel[d]; b.classList.toggle('on', !!ADM.edit.sel[d]);
@@ -1000,25 +1281,25 @@ const ADM = {
     });
   },
   async save(round){
-    $('admBody').insertAdjacentHTML('afterbegin', '<p class="empty" id="admWait">กำลังบันทึก…</p>');
-    try{ ADM.data = await api('saveRound', { round: round }); toast('บันทึกรอบแล้ว'); ADM.list(); }
+    $('admBody').insertAdjacentHTML('afterbegin', '<p class="empty" id="admWait">' + T('กำลังบันทึก…') + '</p>');
+    try{ ADM.data = await api('saveRound', { round: round }); toast(T('บันทึกรอบแล้ว')); ADM.list(); }
     catch(e){ const w = $('admWait'); if (w) w.remove(); toast(errMsg(e), true); }
   },
   async summary(id){
-    $('admBody').innerHTML = '<p class="empty">กำลังสรุป…</p>';
+    $('admBody').innerHTML = '<p class="empty">' + T('กำลังสรุป…') + '</p>';
     try{
       const s = await api('hairSummary', { round_id: id });
-      $('admTitle').textContent = 'สรุป ' + s.round.title;
+      $('admTitle').textContent = T('สรุป {t}', { t: dRound(s.round.title) });
       const row = (name, n, c, cls, k) => '<tr class="' + cls + '"' + (k != null ? ' data-room="' + k + '"' : '') + '><td>' + name + '</td><td>' + c.pass + '/' + n + '</td><td>' + c.fail + '</td><td>' + c.away + '</td><td>' + c.none + '</td></tr>';
-      let h = '<div class="card"><div class="meta">' + s.round.round_id + ' · ' + ADM.fmtDates(s.round.dates) + ' · แตะชื่อห้องเพื่อดูรายชื่อที่ยังไม่ผ่าน</div>' +
-        '<div style="overflow-x:auto"><table class="stbl"><tr><th>ห้อง</th><th>ผ่าน</th><th>ไม่ผ่าน</th><th>ไม่อยู่</th><th>ยังไม่ตรวจ</th></tr>';
+      let h = '<div class="card"><div class="meta">' + esc(s.round.round_id) + ' · ' + ADM.fmtDates(s.round.dates) + T(' · แตะชื่อห้องเพื่อดูรายชื่อที่ยังไม่ผ่าน') + '</div>' +
+        '<div style="overflow-x:auto"><table class="stbl"><tr><th>' + T('ห้อง') + '</th><th>' + T('ผ่าน') + '</th><th>' + T('ไม่ผ่าน') + '</th><th>' + T('ไม่อยู่') + '</th><th>' + T('ยังไม่ตรวจ') + '</th></tr>';
       s.grades.forEach(g => {
-        h += row('ระดับ ' + g.grade, g.n, g.counts, 'g');
-        s.rooms.forEach((r, k) => { if (r.room.split('/')[0] === g.grade) h += row(r.room, r.n, r.counts, 'room', k) +
+        h += row(esc(T('ระดับ {g}', { g: dCls(g.grade) })), g.n, g.counts, 'g');
+        s.rooms.forEach((r, k) => { if (r.room.split('/')[0] === g.grade) h += row(esc(dCls(r.room)), r.n, r.counts, 'room', k) +
           '<tr hidden id="todo' + k + '"><td colspan="5" class="todo">' + (r.todo.length ? r.todo.map(t => esc(t.no + ' ' + t.name) + ' — ' +
-            ({ fail: '❌ ไม่ผ่าน', away: '➖ ไม่อยู่', none: '⚪ ยังไม่ได้ตรวจ' }[t.st]) + (t.note ? ' (' + esc(t.note) + ')' : '')).join('<br>') : 'ผ่านครบทุกคน') + '</td></tr>'; });
+            T({ fail: '❌ ไม่ผ่าน', away: '➖ ไม่อยู่', none: '⚪ ยังไม่ได้ตรวจ' }[t.st]) + (t.note ? ' (' + esc(t.note) + ')' : '')).join('<br>') : T('ผ่านครบทุกคน')) + '</td></tr>'; });
       });
-      h += '</table></div><button class="btn ghost" id="sBack">ย้อนกลับ</button></div>';
+      h += '</table></div><button class="btn ghost" id="sBack">' + T('ย้อนกลับ') + '</button></div>';
       $('admBody').innerHTML = h;
       $('admBody').querySelectorAll('tr.room').forEach(tr => tr.onclick = () => { const t = $('todo' + tr.dataset.room); t.hidden = !t.hidden; });
       $('sBack').onclick = ADM.list;
@@ -1036,7 +1317,7 @@ const PEND = {
   jump(cls, date){
     if (S.busy) return;
     if (cls === S.cls && date === S.date) return;
-    if (S.dirty && S.canEdit && !confirm('ยังไม่ได้บันทึกการเปลี่ยนแปลง ต้องการออกจากหน้านี้หรือไม่?')) return;
+    if (S.dirty && S.canEdit && !confirm(T('ยังไม่ได้บันทึกการเปลี่ยนแปลง ต้องการออกจากหน้านี้หรือไม่?'))) return;
     $('cls').value = cls;
     renderDates(date);
     load();
@@ -1047,28 +1328,28 @@ const PEND = {
     const list = I.pending || [];
     const total = list.reduce((a, p) => a + p.days.length, 0);
     box.hidden = false;
-    if (!total){ box.className = 'pend ok'; box.textContent = '✓ บันทึกครบทุกวันแล้ว'; return; }
+    if (!total){ box.className = 'pend ok'; box.textContent = T('✓ บันทึกครบทุกวันแล้ว'); return; }
     box.className = 'pend warn';
     const hid = PEND.hidden();
     let head, chips = '';
     if (list.length === 1){
       const p = list[0], MAX = 8;
-      head = '⚠ ยังไม่ได้บันทึก ' + total + ' วัน' + (I.editable.length > 1 ? ' · ' + esc(p.cls) : '');
+      head = T('⚠ ยังไม่ได้บันทึก {n} วัน', { n: total }) + (I.editable.length > 1 ? ' · ' + esc(dCls(p.cls)) : '');
       chips = p.days.slice(0, MAX).map(d =>
         '<button type="button" class="chip' + (d.key === I.today ? ' today' : '') +
         (p.cls === S.cls && d.key === S.date ? ' cur' : '') + '" data-c="' + esc(p.cls) + '" data-d="' + d.key + '">' +
-        esc(thaiDate(d.key)) + (d.st === 'partial' ? ' · ไม่ครบ' : '') + '</button>').join('') +
-        (p.days.length > MAX ? '<span class="chip more">+' + (p.days.length - MAX) + ' วัน</span>' : '');
+        esc(thaiDate(d.key)) + (d.st === 'partial' ? T(' · ไม่ครบ') : '') + '</button>').join('') +
+        (p.days.length > MAX ? '<span class="chip more">' + T('+{n} วัน', { n: p.days.length - MAX }) + '</span>' : '');
     } else {
-      head = '⚠ ' + list.length + ' ห้องยังค้างบันทึก (รวม ' + total + ' วัน)';
+      head = T('⚠ {r} ห้องยังค้างบันทึก (รวม {n} วัน)', { r: list.length, n: total });
       chips = list.map(p => {
         const hasToday = p.days.some(d => d.key === I.today);
         return '<button type="button" class="chip' + (hasToday ? ' today' : '') + (p.cls === S.cls ? ' cur' : '') +
-          '" data-c="' + esc(p.cls) + '" data-d="' + p.days[0].key + '">' + esc(p.cls) + ' · ' + p.days.length + ' วัน</button>';
+          '" data-c="' + esc(p.cls) + '" data-d="' + p.days[0].key + '">' + esc(T('{c} · {n} วัน', { c: dCls(p.cls), n: p.days.length })) + '</button>';
       }).join('');
     }
     box.innerHTML = '<div class="row"><span>' + head + '</span><button type="button" class="tog" id="pendTog">' +
-      (hid ? 'แสดง' : 'ซ่อน') + '</button></div>' + (hid ? '' : '<div class="chips">' + chips + '</div>');
+      T(hid ? 'แสดง' : 'ซ่อน') + '</button></div>' + (hid ? '' : '<div class="chips">' + chips + '</div>');
     $('pendTog').onclick = PEND.toggle;
     box.querySelectorAll('.chip[data-c]').forEach(b => b.onclick = () => PEND.jump(b.dataset.c, b.dataset.d));
   }
@@ -1081,7 +1362,7 @@ const ACCT = {
     $('asClose').onclick = ACCT.close;
     $('as').onclick = e => { if (e.target === $('as')) ACCT.close(); };
     $('asSwitch').onclick = () => {
-      if (S.dirty && S.canEdit && !confirm('ยังไม่ได้บันทึกการเปลี่ยนแปลง ต้องการออกจากระบบหรือไม่?')) return;
+      if (S.dirty && S.canEdit && !confirm(T('ยังไม่ได้บันทึกการเปลี่ยนแปลง ต้องการออกจากระบบหรือไม่?'))) return;
       ACCT.close(); AUTH.logout();
     };
   },
@@ -1089,15 +1370,14 @@ const ACCT = {
     const I = S.init, cur = $('asCur');
     if (!I.editable.length){
       cur.className = 'cur bad';
-      cur.innerHTML = '<b>' + esc(I.email) + '</b><br>บัญชีนี้ยังไม่มีสิทธิ์บันทึกห้องใดเลย ' +
-        'หากคุณเป็นครูที่ปรึกษา อาจเลือกบัญชีผิด กรุณาเปลี่ยนเป็นบัญชีที่ได้รับสิทธิ์';
+      cur.innerHTML = '<b>' + esc(I.email) + '</b><br>' + T('บัญชีนี้ยังไม่มีสิทธิ์บันทึกห้องใดเลย หากคุณเป็นครูที่ปรึกษา อาจเลือกบัญชีผิด กรุณาเปลี่ยนเป็นบัญชีที่ได้รับสิทธิ์');
     } else {
       cur.className = 'cur';
-      cur.innerHTML = '<b>' + esc(I.email) + '</b><br>บันทึกได้ ' + I.editable.length + ' ห้อง: ' + I.editable.map(esc).join(', ');
+      cur.innerHTML = '<b>' + esc(I.email) + '</b><br>' + esc(T('บันทึกได้ {n} ห้อง: {c}', { n: I.editable.length, c: I.editable.map(dCls).join(', ') }));
     }
     $('asAdmin').hidden = !I.isAdmin;
-    $('asTitle').textContent = noRights ? 'บัญชีนี้ไม่มีสิทธิ์บันทึก' : 'บัญชีที่ใช้งานอยู่';
-    $('asClose').textContent = !I.editable.length ? 'ดูข้อมูลอย่างเดียว' : 'ใช้บัญชีนี้ต่อ';
+    $('asTitle').textContent = T(noRights ? 'บัญชีนี้ไม่มีสิทธิ์บันทึก' : 'บัญชีที่ใช้งานอยู่');
+    $('asClose').textContent = T(!I.editable.length ? 'ดูข้อมูลอย่างเดียว' : 'ใช้บัญชีนี้ต่อ');
     $('as').classList.add('show');
   },
   close(){ $('as').classList.remove('show'); }
@@ -1137,7 +1417,7 @@ const GIS = {
       $('gbtn').innerHTML = '';
       google.accounts.id.renderButton($('gbtn'), {
         type: 'standard', theme: 'filled_blue', size: 'large', shape: 'pill',
-        text: 'signin_with', logo_alignment: 'left', locale: 'th', width: w
+        text: 'signin_with', logo_alignment: 'left', locale: LANG, width: w
       });
       if (autoPrompt) google.accounts.id.prompt();
     });
@@ -1159,7 +1439,7 @@ const AUTH = {
     GIS.render(autoPrompt);
   },
   async onCredential(idToken){
-    AUTH.wait('กำลังตรวจสอบบัญชี…');
+    AUTH.wait(T('กำลังตรวจสอบบัญชี…'));
     try{
       const d = await api('login', { idToken: idToken, device: navigator.userAgent });
       S.session = d.session; ls.set(SESSION_KEY, d.session);
@@ -1174,29 +1454,31 @@ const AUTH = {
   },
   expired(msg){
     S.session = null; ls.del(SESSION_KEY); S.init = null;
-    AUTH.showLogin(msg || 'กรุณาลงชื่อเข้าใช้ใหม่', 'info', true);
+    AUTH.showLogin(msg || T('กรุณาลงชื่อเข้าใช้ใหม่'), 'info', true);
   },
   async logout(){
     const tok = S.session;
     S.session = null; ls.del(SESSION_KEY); S.init = null; S.dirty = false;
     try{ google.accounts.id.disableAutoSelect(); }catch(e){}
-    AUTH.showLogin('ออกจากระบบแล้ว กดปุ่มด้านบนแล้วเลือกบัญชีที่ต้องการ', 'info', false);
+    AUTH.showLogin(T('ออกจากระบบแล้ว กดปุ่มด้านบนแล้วเลือกบัญชีที่ต้องการ'), 'info', false);
     if (tok) try{ await api('logout', { session: tok }); }catch(e){}
   }
 };
 
 async function boot(){
-  $('lver').textContent = 'เวอร์ชัน ' + PAGE_VERSION;
+  applyStatic();
+  document.querySelectorAll('.langbtn').forEach(b => b.onclick = () => setLang(LANG === 'en' ? 'th' : 'en'));
+  $('lver').textContent = T('เวอร์ชัน {v}', { v: dVer(PAGE_VERSION) });
   if (/ใส่_/.test(CONFIG.CLIENT_ID + CONFIG.API_URL) || !/\.apps\.googleusercontent\.com$/.test(CONFIG.CLIENT_ID.trim())){
     $('lmsg').className = 'lmsg show err';
-    $('lmsg').textContent = 'ผู้ดูแลระบบยังตั้งค่า CLIENT_ID หรือ API_URL ใน index.html ไม่ถูกต้อง';
+    $('lmsg').textContent = T('ผู้ดูแลระบบยังตั้งค่า CLIENT_ID หรือ API_URL ใน index.html ไม่ถูกต้อง');
     $('gbtn').style.display = 'none';
     return;
   }
   ACCT.setup();
   S.session = ls.get(SESSION_KEY);
   if (!S.session) return AUTH.showLogin('', '', true);
-  AUTH.wait('กำลังเข้าสู่ระบบ…');
+  AUTH.wait(T('กำลังเข้าสู่ระบบ…'));
   try{
     S.init = await api('init');
     enterApp();
