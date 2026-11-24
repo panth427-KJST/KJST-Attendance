@@ -386,7 +386,7 @@ const CONFIG = {
   CLIENT_ID: '387152732131-gfk59erhm4uivcmi026n6qdnnr48uufd.apps.googleusercontent.com',
   API_URL:   'https://script.google.com/macros/s/AKfycbzAjHJ9dCA54T-S9XGVawR-VItftDt8OSifm4jlB_KwZx_skEL3d-1BkhKFYyVcVsysKA/exec'
 };
-const PAGE_VERSION = '3.1.0 (23 พ.ย. 69)';
+const PAGE_VERSION = '3.2.0 (24 พ.ย. 69)';
 const PEND_HIDE_KEY = 'kjst_att_pend_hide';
 const SCHOOL_DOMAIN = 'kjst.ac.th';
 const LAST_EMAIL_KEY = 'kjst_att_last_email';
@@ -569,6 +569,8 @@ function T(th, v){
   if (v) s = s.replace(/\{(\w+)\}/g, (m, k) => v[k] != null ? v[k] : m);
   return s;
 }
+/** ชื่อนักเรียนสำหรับแสดงผล: โหมด English ใช้ชื่ออังกฤษจากชีต _ชื่อภาษาอังกฤษ (ถ้ามี) · ข้อความ LINE ใช้ชื่อไทยเสมอ */
+const sName = s => LANG === 'en' && s.nameEn ? s.nameEn : s.name;
 /** ชื่อห้อง/ระดับสำหรับแสดงผล (ค่าข้อมูลยังเป็นภาษาไทย) */
 const dCls = c => LANG === 'en' ? String(c).replace(/^ม\./, 'M.') : String(c);
 const ITEM_EN = {
@@ -813,7 +815,7 @@ function renderBanner(recorded){
 function rowHtml(s, i){
   const k = S.init.statuses.indexOf(s.status);
   return '<li class="stu' + (k < 0 && S.canEdit ? ' blank' : '') + '" id="r' + i + '">' +
-    '<div class="who"><span class="nm"><span class="no">' + esc(s.no) + '</span><span class="name">' + esc(s.name) + '</span></span>' +
+    '<div class="who"><span class="nm"><span class="no">' + esc(s.no) + '</span><span class="name"' + (LANG === 'en' && s.nameEn ? ' title="' + esc(s.name) + '"' : '') + '>' + esc(sName(s)) + '</span></span>' +
     CD.dressBtn(s, i) + '</div>' +
     '<div class="seg">' + SHORT.map((t, j) =>
       '<button data-i="' + i + '" data-k="' + j + '" class="' + (j === k ? 'on' : '') + '"' +
@@ -872,7 +874,7 @@ $('list').addEventListener('click', e => {
   const i = +b.dataset.i, k = +b.dataset.k, s = S.students[i];
   const next = S.init.statuses[k];
   if (!CD.isPresent(next) && s.dress && s.dress.items.length){
-    if (!confirm(T('{n} มีรายการผิดระเบียบ {k} รายการ\nเปลี่ยนเป็น "{s}" จะล้างรายการนี้ ต้องการเปลี่ยนหรือไม่?', { n: s.name, k: s.dress.items.length, s: T(SHORT[k]) }))) return;
+    if (!confirm(T('{n} มีรายการผิดระเบียบ {k} รายการ\nเปลี่ยนเป็น "{s}" จะล้างรายการนี้ ต้องการเปลี่ยนหรือไม่?', { n: sName(s), k: s.dress.items.length, s: T(SHORT[k]) }))) return;
     s.dress = { items: [], note: '' };
   }
   s.status = next;
@@ -1125,7 +1127,7 @@ const CD = {
   async sendPropose(i, kind){
     const s = S.students[i], p = ((CD.propose || {})[CD.sid(s.id)] || []).find(x => x.kind === kind);
     if (!p) return;
-    if (!confirm(T('ส่งเสนอตัดคะแนน {n} ({k})\n{e}\n\nแอดมินจะตรวจสอบและอนุมัติก่อนตัดคะแนนจริงในระบบ KJST Shield', { n: s.name, k: dKind(kind), e: dEv(p.evidence) }))) return;
+    if (!confirm(T('ส่งเสนอตัดคะแนน {n} ({k})\n{e}\n\nแอดมินจะตรวจสอบและอนุมัติก่อนตัดคะแนนจริงในระบบ KJST Shield', { n: sName(s), k: dKind(kind), e: dEv(p.evidence) }))) return;
     try{
       const r = await api('proposeDeduct', { sheetName: S.cls, dateKey: S.date, sid: s.id, kind: kind });
       CD.propose = r.propose || {};
@@ -1174,7 +1176,7 @@ const CD = {
     if (!CD.hairEditable()) return true;
     const i = S.students.findIndex(s => CD.isPresent(s.status) && s.hair && s.hair.res === HF && !s.hair.note.trim());
     if (i < 0) return true;
-    toast(T('ทรงผม "ไม่ผ่าน" ต้องกรอกหมายเหตุ: {n}', { n: S.students[i].name }), true);
+    toast(T('ทรงผม "ไม่ผ่าน" ต้องกรอกหมายเหตุ: {n}', { n: sName(S.students[i]) }), true);
     const t = document.querySelector('textarea[data-hnote="' + i + '"]');
     if (t){ t.scrollIntoView({ block: 'center' }); t.focus(); }
     return false;
@@ -1197,7 +1199,7 @@ const CD = {
     if (!S.canEdit || S.busy) return;
     const s = S.students[i]; CD.pick = i;
     if (!CD.items.length){ toast(T('ยังไม่มีรายการตรวจระเบียบจากระบบ กรุณาแจ้งผู้ดูแลระบบ'), true); return; }
-    $('dpTitle').textContent = T('ผิดระเบียบ · {n}', { n: s.name });
+    $('dpTitle').textContent = T('ผิดระเบียบ · {n}', { n: sName(s) });
     const all = CD.items.slice(); s.dress.items.forEach(x => { if (all.indexOf(x) < 0) all.push(x); });
     $('dpItems').innerHTML = all.map((t, k) =>
       '<label class="' + (s.dress.items.indexOf(t) >= 0 ? 'on' : '') + '"><input type="checkbox" value="' + esc(t) + '"' +
